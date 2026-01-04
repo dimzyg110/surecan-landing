@@ -1,3 +1,4 @@
+import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { 
@@ -77,6 +78,10 @@ const staggerContainer = {
 };
 
 export default function Home() {
+  // The userAuth hooks provides authentication state
+  // To implement login/logout functionality, simply call logout() or redirect to getLoginUrl()
+  let { user, loading, error, isAuthenticated, logout } = useAuth();
+
   return (
     <div className="min-h-screen bg-background blueprint-grid">
       {/* Navigation */}
@@ -154,12 +159,21 @@ function Navigation() {
           </a>
         </div>
         
-        <Button 
-          className="bg-[#0D9488] hover:bg-[#0D9488]/90 text-white"
-          onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-        >
-          Partner With Us
-        </Button>
+        <div className="flex gap-2">
+          <Button 
+            variant="outline"
+            className="border-[#0D9488] text-[#0D9488] hover:bg-[#0D9488]/10"
+            onClick={() => window.location.href = '/dashboard'}
+          >
+            Dashboard
+          </Button>
+          <Button 
+            className="bg-[#0D9488] hover:bg-[#0D9488]/90 text-white"
+            onClick={() => window.location.href = '/referral'}
+          >
+            Submit Referral
+          </Button>
+        </div>
       </div>
     </motion.nav>
   );
@@ -209,9 +223,9 @@ function HeroSection() {
               <Button 
                 size="lg"
                 className="bg-[#0D9488] hover:bg-[#0D9488]/90 text-white gap-2"
-                onClick={() => document.getElementById('boomerang')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => window.location.href = '/referral'}
               >
-                See How It Works
+                Submit Referral
                 <ArrowRight className="w-4 h-4" />
               </Button>
               <Button 

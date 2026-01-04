@@ -10,6 +10,14 @@ async function startServer() {
   const app = express();
   const server = createServer(app);
 
+  // Parse JSON bodies
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
+
+  // API routes
+  const { default: referralsRouter } = await import("./routes/referrals.js");
+  app.use("/api/referrals", referralsRouter);
+
   // Serve static files from dist/public in production
   const staticPath =
     process.env.NODE_ENV === "production"
@@ -18,8 +26,12 @@ async function startServer() {
 
   app.use(express.static(staticPath));
 
-  // Handle client-side routing - serve index.html for all routes
-  app.get("*", (_req, res) => {
+  // Handle client-side routing - serve index.html for all non-API routes
+  app.get("*", (req, res) => {
+    // Skip API routes
+    if (req.path.startsWith("/api")) {
+      return res.status(404).json({ error: "API endpoint not found" });
+    }
     res.sendFile(path.join(staticPath, "index.html"));
   });
 
