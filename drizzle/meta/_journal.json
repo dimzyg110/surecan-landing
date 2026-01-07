@@ -15,6 +15,13 @@
       "when": 1767560399238,
       "tag": "0001_greedy_peter_parker",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1767825299573,
+      "tag": "0002_famous_aaron_stack",
+      "breakpoints": true
     }
   ]
 }

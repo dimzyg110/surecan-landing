@@ -36,4 +36,37 @@
 ## Testing & Deployment
 - [x] Test referral submission flow end-to-end
 - [x] Test dashboard functionality
+- [x] Test marketing automation features
+- [ ] Write vitest tests for API endpoints
 - [ ] Create checkpoint for deployment
+
+## Marketing Assets & Outreach Automation
+
+### Content Enhancements
+- [x] Add FAQ section page with doctor-specific questions
+- [x] Create Dr. Lewis profile page with bio and credentials
+- [x] Add Pharmacy Partnership dedicated page with "Local First" promise
+- [ ] Create Allied Health landing page for physiotherapists/psychologists
+- [ ] Add downloadable resources section (Eligibility Cheat Sheet, Contact Cards, Templates)
+
+### Downloadable Resources
+- [ ] Create Eligibility Cheat Sheet PDF
+- [ ] Generate Pharmacist Direct contact card (vCard/PDF)
+- [ ] Create Transfer of Care Letter template (sample PDF)
+- [ ] Add resource download tracking
+
+### Outreach Automation
+- [x] Build lead tracking system with engagement scoring
+- [x] Create lead capture forms with email collection (integrated in referral form)
+- [x] Implement QR code generation for pharmacist flyers with unique identifiers
+- [x] Add referral source tracking (GP, Pharmacist, Allied Health, QR codes)
+- [x] Create marketing automation dashboard for managing leads and QR codes
+- [x] Add Klaviyo/HubSpot webhook integration endpoints
+- [ ] Build automated follow-up email sequences
+- [ ] Add analytics dashboard for tracking conversions
+
+### Integration Features
+- [ ] Add HealthLink referral pathway integration
+- [ ] Implement geotargeting for pharmacy identification (10km radius)
+- [ ] Create location-based landing pages
+- [ ] Add CRM tagging by specialty and location

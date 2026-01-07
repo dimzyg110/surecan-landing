@@ -69,3 +69,77 @@ export const educationProgress = mysqlTable("educationProgress", {
 
 export type EducationProgress = typeof educationProgress.$inferSelect;
 export type InsertEducationProgress = typeof educationProgress.$inferInsert;
+
+/**
+ * Leads table for tracking potential referrers and their engagement
+ */
+export const leads = mysqlTable("leads", {
+  id: int("id").autoincrement().primaryKey(),
+  email: varchar("email", { length: 320 }).notNull().unique(),
+  name: varchar("name", { length: 255 }),
+  phone: varchar("phone", { length: 50 }),
+  profession: varchar("profession", { length: 100 }), // gp, pharmacist, allied_health
+  practiceName: varchar("practiceName", { length: 255 }),
+  location: varchar("location", { length: 255 }),
+  source: varchar("source", { length: 100 }), // website, qr_code, referral
+  sourceId: varchar("sourceId", { length: 255 }), // QR code ID, referral ID
+  engagementScore: int("engagementScore").default(0).notNull(),
+  lastActivityAt: timestamp("lastActivityAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Lead = typeof leads.$inferSelect;
+export type InsertLead = typeof leads.$inferInsert;
+
+/**
+ * Campaigns table for email/SMS outreach campaigns
+ */
+export const campaigns = mysqlTable("campaigns", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  type: varchar("type", { length: 100 }).notNull(), // email, sms
+  targetAudience: varchar("targetAudience", { length: 100 }), // allied_health, pharmacist, gp
+  subject: varchar("subject", { length: 255 }),
+  content: text("content"),
+  status: mysqlEnum("status", ["draft", "scheduled", "sent"]).default("draft").notNull(),
+  sentAt: timestamp("sentAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Campaign = typeof campaigns.$inferSelect;
+export type InsertCampaign = typeof campaigns.$inferInsert;
+
+/**
+ * QR Codes table for pharmacy tracking
+ */
+export const qrCodes = mysqlTable("qrCodes", {
+  id: int("id").autoincrement().primaryKey(),
+  code: varchar("code", { length: 255 }).notNull().unique(),
+  pharmacyName: varchar("pharmacyName", { length: 255 }).notNull(),
+  pharmacyEmail: varchar("pharmacyEmail", { length: 320 }),
+  pharmacyPhone: varchar("pharmacyPhone", { length: 50 }),
+  pharmacyAddress: varchar("pharmacyAddress", { length: 500 }),
+  scans: int("scans").default(0).notNull(),
+  lastScannedAt: timestamp("lastScannedAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type QRCode = typeof qrCodes.$inferSelect;
+export type InsertQRCode = typeof qrCodes.$inferInsert;
+
+/**
+ * Lead Activities table for tracking engagement actions
+ */
+export const leadActivities = mysqlTable("leadActivities", {
+  id: int("id").autoincrement().primaryKey(),
+  leadId: int("leadId").notNull(),
+  activityType: varchar("activityType", { length: 100 }).notNull(), // page_view, download, form_submit
+  activityData: text("activityData"), // JSON data
+  points: int("points").default(0).notNull(), // Engagement points
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type LeadActivity = typeof leadActivities.$inferSelect;
+export type InsertLeadActivity = typeof leadActivities.$inferInsert;

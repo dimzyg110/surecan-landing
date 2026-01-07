@@ -7,6 +7,10 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import ReferralForm from "./pages/ReferralForm";
 import Dashboard from "./pages/Dashboard";
+import FAQ from "./pages/FAQ";
+import DrLewisProfile from "./pages/DrLewisProfile";
+import PharmacyPartnership from "./pages/PharmacyPartnership";
+import MarketingDashboard from "./pages/MarketingDashboard";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -15,6 +19,10 @@ function Router() {
       <Route path={"/"} component={Home} />
       <Route path={"/referral"} component={ReferralForm} />
       <Route path={"/dashboard"} component={Dashboard} />
+      <Route path={"/faq"} component={FAQ} />
+      <Route path={"/dr-lewis"} component={DrLewisProfile} />
+      <Route path={"/pharmacy-partnership"} component={PharmacyPartnership} />
+      <Route path={"/marketing"} component={MarketingDashboard} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

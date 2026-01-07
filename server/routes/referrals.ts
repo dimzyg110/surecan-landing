@@ -1,6 +1,7 @@
 import { Router } from "express";
-import { db } from "../db";
+import { getDb } from "../db";
 import { referrals, type InsertReferral } from "../../drizzle/schema";
+import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 const router = Router();
@@ -28,6 +29,12 @@ const referralSchema = z.object({
  */
 router.post("/", async (req, res) => {
   try {
+    const db = await getDb();
+    if (!db) {
+      res.status(500).json({ success: false, message: "Database unavailable" });
+      return;
+    }
+    
     const validatedData = referralSchema.parse(req.body);
     
     const insertData: InsertReferral = {
@@ -48,7 +55,7 @@ router.post("/", async (req, res) => {
       res.status(400).json({
         success: false,
         message: "Validation error",
-        errors: error.errors,
+        errors: error.issues,
       });
     } else {
       console.error("Error submitting referral:", error);
@@ -66,6 +73,12 @@ router.post("/", async (req, res) => {
  */
 router.get("/", async (req, res) => {
   try {
+    const db = await getDb();
+    if (!db) {
+      res.status(500).json({ success: false, message: "Database unavailable" });
+      return;
+    }
+    
     const { status, referrerType } = req.query;
     
     let query = db.select().from(referrals);
@@ -76,10 +89,10 @@ router.get("/", async (req, res) => {
     
     let filteredReferrals = allReferrals;
     if (status) {
-      filteredReferrals = filteredReferrals.filter(r => r.status === status);
+      filteredReferrals = filteredReferrals.filter((r: any) => r.status === status);
     }
     if (referrerType) {
-      filteredReferrals = filteredReferrals.filter(r => r.referrerType === referrerType);
+      filteredReferrals = filteredReferrals.filter((r: any) => r.referrerType === referrerType);
     }
     
     res.json({
@@ -101,8 +114,14 @@ router.get("/", async (req, res) => {
  */
 router.get("/:id", async (req, res) => {
   try {
+    const db = await getDb();
+    if (!db) {
+      res.status(500).json({ success: false, message: "Database unavailable" });
+      return;
+    }
+    
     const id = parseInt(req.params.id);
-    const [referral] = await db.select().from(referrals).where((t, { eq }) => eq(t.id, id));
+    const [referral] = await db.select().from(referrals).where(eq(referrals.id, id));
     
     if (!referral) {
       res.status(404).json({
@@ -131,6 +150,12 @@ router.get("/:id", async (req, res) => {
  */
 router.patch("/:id/status", async (req, res) => {
   try {
+    const db = await getDb();
+    if (!db) {
+      res.status(500).json({ success: false, message: "Database unavailable" });
+      return;
+    }
+    
     const id = parseInt(req.params.id);
     const { status, notes } = req.body;
     
@@ -144,7 +169,7 @@ router.patch("/:id/status", async (req, res) => {
     
     await db.update(referrals)
       .set({ status, notes, updatedAt: new Date() })
-      .where((t, { eq }) => eq(t.id, id));
+      .where(eq(referrals.id, id));
     
     res.json({
       success: true,

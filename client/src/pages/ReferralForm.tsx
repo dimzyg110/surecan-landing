@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -31,6 +31,27 @@ export default function ReferralForm() {
   const [, setLocation] = useLocation();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [qrCode, setQRCode] = useState<string | null>(null);
+  const [pharmacyInfo, setPharmacyInfo] = useState<any>(null);
+  
+  // Check for QR code parameter on mount
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const qr = params.get('qr');
+    if (qr) {
+      setQRCode(qr);
+      // Track QR code scan
+      fetch(`/api/qrcodes/${qr}/scan`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            setPharmacyInfo(data.pharmacy);
+            toast.info(`Referred by ${data.pharmacy.name}`);
+          }
+        })
+        .catch(console.error);
+    }
+  }, []);
   
   const [formData, setFormData] = useState({
     patientName: "",
@@ -55,6 +76,27 @@ export default function ReferralForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+
+    // Create or update lead for the referrer
+    if (formData.referrerEmail) {
+      try {
+        await fetch('/api/leads', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: formData.referrerEmail,
+            name: formData.referrerName,
+            phone: formData.referrerPhone,
+            profession: formData.referrerType,
+            practiceName: formData.referrerPracticeName,
+            source: qrCode ? 'qr_code' : 'website',
+            sourceId: qrCode || undefined,
+          }),
+        });
+      } catch (error) {
+        console.error('Failed to create lead:', error);
+      }
+    }
 
     try {
       const response = await fetch("/api/referrals", {

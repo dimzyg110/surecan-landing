@@ -16,7 +16,13 @@ async function startServer() {
 
   // API routes
   const { default: referralsRouter } = await import("./routes/referrals.js");
+  const { default: pharmacyRouter } = await import("./routes/pharmacy.js");
+  const { default: leadsRouter } = await import("./routes/leads.js");
+  const { default: qrCodesRouter } = await import("./routes/qrcodes.js");
   app.use("/api/referrals", referralsRouter);
+  app.use("/api/pharmacy-partnership", pharmacyRouter);
+  app.use("/api/leads", leadsRouter);
+  app.use("/api/qrcodes", qrCodesRouter);
 
   // Serve static files from dist/public in production
   const staticPath =
