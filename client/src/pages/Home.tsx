@@ -355,11 +355,11 @@ function ProblemSection() {
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-[#F87171] mt-1">→</span>
-                  Clinic keeps patient forever
+                  Clinic keeps patient - Preventing Patient autonomy of choice
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-[#F87171] mt-1">→</span>
-                  GP loses revenue & visibility
+                  Primary Care GP loses visibility over their patient
                 </li>
               </ul>
             </div>
@@ -446,7 +446,7 @@ function BoomerangSection() {
             className="max-w-3xl mx-auto bg-gradient-to-r from-[#0A2540] to-[#0A2540]/90 rounded-2xl p-8 md:p-12 text-center"
           >
             <blockquote className="text-2xl md:text-3xl font-medium text-white mb-4" style={{ fontFamily: 'Space Grotesk' }}>
-              "We handle the complexity, you keep the patient (and the revenue)."
+              "We handle the complexity, you keep the patient and maintain visibility over GP care"
             </blockquote>
             <p className="text-white/60">— The Surecan Promise</p>
           </motion.div>
@@ -461,22 +461,22 @@ function AudienceSection() {
     {
       icon: Stethoscope,
       title: "General Practitioners",
-      painPoint: "Fear of losing patients to 'specialists' who take over general care.",
-      solution: "We stabilize and return patients for CDM. We never take over primary care duties.",
+      painPoint: "Unknown treatments from rogue and competitive Clinics, undermining the care and intentions of the patients usual GP.",
+      solution: "We stabilise and return patients for CDM. We never take over primary care duties, without shared care co-ordination.",
       color: "#0D9488"
     },
     {
       icon: Pill,
       title: "Pharmacists",
-      painPoint: "Online clinics use centralized dispensaries, cutting local pharmacies out.",
-      solution: "If you refer a patient to us, the script comes back to you. We write open scripts to the referring pharmacy.",
+      painPoint: "Online clinics use centralised dispensaries, removing local pharmacies, often channeling the patient, who may or may not, receive quality care for complex ailments.",
+      solution: "If you refer a patient to us, the script is not held ransom. It is accessible and visible on SafeScript, and a patient review is sent back to you, to ensure interdisciplinary care. We send scripts to the referring pharmacy, or pharmacy of choice.",
       color: "#0A2540"
     },
     {
       icon: Heart,
       title: "Allied Health",
       painPoint: "Patients in too much pain or anxiety to engage effectively with therapy.",
-      solution: "We stabilize symptoms so patients can return and complete their treatment plan. We make your therapy work better.",
+      solution: "We stabilise symptoms so patients can return and complete their treatment plan. We make your therapy work better. We can support your patients transparently and help educate everyone involved.",
       color: "#F59E0B"
     }
   ];
@@ -510,7 +510,9 @@ function AudienceSection() {
               variants={fadeInUp}
               className="text-lg text-[#0A2540]/70 max-w-2xl mx-auto"
             >
-              Our Shared Care model addresses the specific concerns of each healthcare provider type.
+              Our Shared Care model addresses the specific concerns of each healthcare provider.
+              We are a product agnostic clinic, that does not have any conflicts of interest. We care for the outcomes, and work to optimise patient outcomes for Chronic Conditions. 
+              We aim to help bridge medical care in a manner that is ethical, compliant and highly experienced.
             </motion.p>
           </div>
           
@@ -578,7 +580,7 @@ function SafetySection() {
     {
       icon: Users,
       title: "Nurse-Led Model",
-      description: "3:1 nurse-to-doctor ratio. Nurses handle intake, consent, and education. Doctors focus on clinical assessment.",
+      description: "3:1 nurse-to-doctor ratio. Nurses handle intake, consent, and education. Doctors focus on clinical assessment. No tick and flick consults, proper attention is provided with excellent collaborative support.",
       stat: "3:1",
       statLabel: "Nurse Ratio"
     },
