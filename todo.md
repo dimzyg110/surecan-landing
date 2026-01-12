@@ -77,3 +77,12 @@
 - [x] Identify UX patterns and content strategies to implement
 - [x] Update Surecan landing page with inspired improvements (sticky announcement bar, enhanced stats, testimonials)
 - [x] Test and validate new design elements
+
+## UX Optimization - Conversion Flow
+- [x] Replace "Contact Us" button with "Book Now" throughout the site
+- [x] Add "Request Referral Information" button as secondary CTA
+- [x] Create initial engagement popup form for contact capture on page load
+- [x] Implement form validation and submission handling
+- [x] Add popup dismiss/close functionality with cookie/localStorage persistence
+- [x] Optimize CTA hierarchy and placement for conversion
+- [x] Test form submission flow and data storage

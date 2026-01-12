@@ -1,6 +1,7 @@
 import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { EngagementPopup } from "@/components/EngagementPopup";
 import { 
   ArrowRight, 
   Shield, 
@@ -92,6 +93,22 @@ export default function Home() {
   // The userAuth hooks provides authentication state
   // To implement login/logout functionality, simply call logout() or redirect to getLoginUrl()
   let { user, loading, error, isAuthenticated, logout } = useAuth();
+  
+  const [showPopup, setShowPopup] = useState(false);
+
+  useEffect(() => {
+    // Check if popup has been shown before
+    const hasSeenPopup = document.cookie.includes('surecan_popup_shown=true');
+    
+    if (!hasSeenPopup) {
+      // Show popup after 3 seconds delay
+      const timer = setTimeout(() => {
+        setShowPopup(true);
+      }, 3000);
+      
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
   return (
     <div className="min-h-screen bg-background blueprint-grid">
@@ -130,6 +147,13 @@ export default function Home() {
       
       {/* Footer */}
       <Footer />
+      
+      {/* Engagement Popup */}
+      <AnimatePresence>
+        {showPopup && (
+          <EngagementPopup onClose={() => setShowPopup(false)} />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -240,18 +264,18 @@ function HeroSection() {
               <Button 
                 size="lg"
                 className="bg-[#0D9488] hover:bg-[#0D9488]/90 text-white gap-2"
-                onClick={() => window.location.href = '/referral'}
+                onClick={() => window.location.href = 'https://calendly.com/surecan'}
               >
-                Submit Referral
+                Book Now
                 <ArrowRight className="w-4 h-4" />
               </Button>
               <Button 
                 size="lg"
                 variant="outline"
                 className="border-[#0A2540]/20 text-[#0A2540] hover:bg-[#0A2540]/5"
-                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => window.location.href = '/referral'}
               >
-                Contact Us
+                Request Referral Information
               </Button>
             </motion.div>
             

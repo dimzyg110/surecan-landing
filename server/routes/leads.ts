@@ -12,10 +12,30 @@ const leadSchema = z.object({
   name: z.string().optional(),
   phone: z.string().optional(),
   profession: z.enum(["gp", "pharmacist", "allied_health", "other"]).optional(),
+  role: z.string().optional(), // Accept role from engagement popup
+  practice: z.string().optional(), // Accept practice from engagement popup
   practiceName: z.string().optional(),
   location: z.string().optional(),
   source: z.string().optional(),
   sourceId: z.string().optional(),
+}).transform((data) => {
+  // Map role to profession if profession not provided
+  if (data.role && !data.profession) {
+    const roleMap: Record<string, string> = {
+      'GP': 'gp',
+      'Pharmacist': 'pharmacist',
+      'Physiotherapist': 'allied_health',
+      'Psychologist': 'allied_health',
+      'Allied Health': 'allied_health',
+      'Other': 'other'
+    };
+    data.profession = roleMap[data.role] as any || 'other';
+  }
+  // Map practice to practiceName if practiceName not provided
+  if (data.practice && !data.practiceName) {
+    data.practiceName = data.practice;
+  }
+  return data;
 });
 
 // Activity points mapping
