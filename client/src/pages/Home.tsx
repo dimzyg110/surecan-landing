@@ -391,11 +391,11 @@ function ProblemSection() {
               <ul className="space-y-3 text-left text-white/80">
                 <li className="flex items-start gap-3">
                   <span className="text-[#0D9488] mt-1">→</span>
-                  GP refers complex patient OR Patient self-refers and the primary GP is informed for a holistic care model.
+                  Refer for Chronic Disease management Patient OR Patient self-refers and the primary GP is informed for a holistic care model.
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-[#0D9488] mt-1">→</span>
-                  Surecan clinicians stabilise patient if eligable. This structured on the New Bulk Billing Incentives Program
+                  Surecan stabilises patient if eligible. This structured on the New Bulk Billing Incentives Program
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-[#0D9488] mt-1">→</span>
@@ -440,8 +440,8 @@ function BoomerangSection() {
               variants={fadeInUp}
               className="text-lg text-[#0A2540]/70 max-w-2xl mx-auto"
             >
-              We stabilize the patient and return them for chronic disease management. 
-              We explicitly refuse to take over primary care duties.
+              We stabilise the patient and return them for chronic disease management. 
+              We do not replace the care GP's provide, we supplement the exposure into a new and emerging medical tool
             </motion.p>
           </div>
           
@@ -527,9 +527,7 @@ function AudienceSection() {
               variants={fadeInUp}
               className="text-lg text-[#0A2540]/70 max-w-2xl mx-auto"
             >
-              Our Shared Care model addresses the specific concerns of each healthcare provider.
-              We are a product agnostic clinic, that does not have any conflicts of interest. We care for the outcomes, and work to optimise patient outcomes for Chronic Conditions. 
-              We aim to help bridge medical care in a manner that is ethical, compliant and highly experienced.
+              Our Shared Care model addresses the specific concerns of each healthcare provider. We are a product agnostic clinic, that does not have any conflicts of interest. We care for the outcomes, and work to optimise patient care with Chronic Conditions. We aim to help bridge medical care in a manner that is ethical, compliant and highly experienced.
             </motion.p>
           </div>
           
