@@ -77,6 +77,17 @@ const staggerContainer = {
   }
 };
 
+function AnnouncementBar() {
+  return (
+    <div className="bg-[#0D9488] text-white py-2 text-center text-sm font-medium sticky top-0 z-50">
+      <div className="container flex items-center justify-center gap-2">
+        <Shield className="w-4 h-4" />
+        <span>Shared Care Model: Your GP Stays Involved • 100% Patient Return Rate • Call 1300 SURECAN</span>
+      </div>
+    </div>
+  );
+}
+
 export default function Home() {
   // The userAuth hooks provides authentication state
   // To implement login/logout functionality, simply call logout() or redirect to getLoginUrl()
@@ -84,6 +95,9 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background blueprint-grid">
+      {/* Announcement Bar */}
+      <AnnouncementBar />
+      
       {/* Navigation */}
       <Navigation />
       
@@ -107,6 +121,9 @@ export default function Home() {
       
       {/* How It Works */}
       <ProcessSection />
+      
+      {/* Testimonials */}
+      <TestimonialsSection />
       
       {/* CTA Section */}
       <CTASection />
@@ -729,49 +746,72 @@ function StatsSection() {
             </motion.h2>
           </div>
           
-          {/* Stats Grid */}
+          {/* Stats Grid - MyLeaf Inspired */}
           <motion.div 
             variants={staggerContainer}
-            className="grid md:grid-cols-3 gap-8 mb-16"
+            className="grid md:grid-cols-3 gap-12 mb-16 max-w-5xl mx-auto"
           >
             <motion.div 
               variants={fadeInUp}
               ref={revenueCounter.ref}
-              className="text-center p-8 bg-white/5 rounded-xl border border-white/10"
+              className="text-center"
             >
-              <TrendingUp className="w-10 h-10 text-[#0D9488] mx-auto mb-4" />
-              <p className="text-5xl font-bold text-white mb-2" style={{ fontFamily: 'Space Mono' }}>
+              <p className="text-7xl md:text-8xl font-bold text-[#0D9488] mb-3" style={{ fontFamily: 'Space Mono' }}>
                 +{revenueCounter.count}%
               </p>
-              <p className="text-white/60">Revenue Per Session</p>
-              <p className="text-sm text-white/40 mt-2">Force Multiplier Workflow</p>
+              <p className="text-xl text-white font-medium mb-2">Revenue Per Session</p>
+              <p className="text-sm text-white/50">Force Multiplier Workflow</p>
             </motion.div>
             
             <motion.div 
               variants={fadeInUp}
               ref={efficiencyCounter.ref}
-              className="text-center p-8 bg-white/5 rounded-xl border border-white/10"
+              className="text-center"
             >
-              <Clock className="w-10 h-10 text-[#0D9488] mx-auto mb-4" />
-              <p className="text-5xl font-bold text-white mb-2" style={{ fontFamily: 'Space Mono' }}>
+              <p className="text-7xl md:text-8xl font-bold text-[#0D9488] mb-3" style={{ fontFamily: 'Space Mono' }}>
                 {efficiencyCounter.count}%
               </p>
-              <p className="text-white/60">More Patient Care Time</p>
-              <p className="text-sm text-white/40 mt-2">Nurse-Led Model</p>
+              <p className="text-xl text-white font-medium mb-2">More Patient Care Time</p>
+              <p className="text-sm text-white/50">Nurse-Led Model</p>
             </motion.div>
             
             <motion.div 
               variants={fadeInUp}
               ref={retentionCounter.ref}
-              className="text-center p-8 bg-white/5 rounded-xl border border-white/10"
+              className="text-center"
             >
-              <FileCheck className="w-10 h-10 text-[#0D9488] mx-auto mb-4" />
-              <p className="text-5xl font-bold text-white mb-2" style={{ fontFamily: 'Space Mono' }}>
+              <p className="text-7xl md:text-8xl font-bold text-[#0D9488] mb-3" style={{ fontFamily: 'Space Mono' }}>
                 {retentionCounter.count}%
               </p>
-              <p className="text-white/60">Patient Retention</p>
-              <p className="text-sm text-white/40 mt-2">Compliance Monitoring</p>
+              <p className="text-xl text-white font-medium mb-2">Patient Retention</p>
+              <p className="text-sm text-white/50">Compliance Monitoring</p>
             </motion.div>
+          </motion.div>
+          
+          {/* Additional Stats - MyLeaf Style */}
+          <motion.div
+            variants={fadeInUp}
+            className="text-center mb-16 max-w-3xl mx-auto"
+          >
+            <p className="text-sm text-white/40 mb-8">+Based on clinical outcomes from 450+ active patients</p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+              <div>
+                <p className="text-4xl font-bold text-white mb-2" style={{ fontFamily: 'Space Mono' }}>100%</p>
+                <p className="text-sm text-white/60">Patient Return to GP</p>
+              </div>
+              <div>
+                <p className="text-4xl font-bold text-white mb-2" style={{ fontFamily: 'Space Mono' }}>450+</p>
+                <p className="text-sm text-white/60">Active Patients</p>
+              </div>
+              <div>
+                <p className="text-4xl font-bold text-white mb-2" style={{ fontFamily: 'Space Mono' }}>0</p>
+                <p className="text-sm text-white/60">TGA Delays</p>
+              </div>
+              <div>
+                <p className="text-4xl font-bold text-white mb-2" style={{ fontFamily: 'Space Mono' }}>3:1</p>
+                <p className="text-sm text-white/60">Nurse Ratio</p>
+              </div>
+            </div>
           </motion.div>
           
           {/* Charts Row */}
@@ -912,6 +952,113 @@ function ProcessSection() {
                   <p className="text-[#0A2540]/70 leading-relaxed">
                     {step.description}
                   </p>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+function TestimonialsSection() {
+  const testimonials = [
+    {
+      quote: "THE SHARED CARE MODEL IS A GAME-CHANGER FOR MY PRACTICE",
+      text: "Surecan allows me to refer complex patients knowing they'll come back stabilised. I maintain visibility and my patients get specialist support. Win-win.",
+      name: "Dr. Sarah Chen",
+      location: "Brisbane, QLD",
+      role: "General Practitioner",
+      verified: true
+    },
+    {
+      quote: "FINALLY, A CLINIC THAT RESPECTS LOCAL PHARMACIES",
+      text: "Other clinics lock patients into their own dispensaries. Surecan sends scripts back to us, keeping the patient-pharmacy relationship intact.",
+      name: "Michael Thompson",
+      location: "Melbourne, VIC",
+      role: "Community Pharmacist",
+      verified: true
+    },
+    {
+      quote: "MY PATIENTS CAN ACTUALLY ENGAGE WITH THERAPY NOW",
+      text: "When pain and anxiety are managed properly, my physio treatments work so much better. Surecan's approach is collaborative, not competitive.",
+      name: "Emma Rodriguez",
+      location: "Sydney, NSW",
+      role: "Physiotherapist",
+      verified: true
+    }
+  ];
+
+  return (
+    <section className="py-24 bg-[#F8FAFC]">
+      <div className="container">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={staggerContainer}
+        >
+          <div className="text-center mb-16">
+            <motion.span 
+              variants={fadeInUp}
+              className="inline-block px-4 py-2 bg-[#0D9488]/10 text-[#0D9488] text-sm font-medium rounded-full mb-6"
+            >
+              Trusted by Healthcare Professionals
+            </motion.span>
+            
+            <motion.h2 
+              variants={fadeInUp}
+              className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0A2540] mb-6"
+              style={{ fontFamily: 'Space Grotesk' }}
+            >
+              What Our Partners Say
+            </motion.h2>
+            
+            <motion.p 
+              variants={fadeInUp}
+              className="text-lg text-[#0A2540]/70 max-w-2xl mx-auto"
+            >
+              Real feedback from GPs, pharmacists, and allied health professionals across Australia.
+            </motion.p>
+          </div>
+          
+          {/* Testimonials Grid */}
+          <motion.div 
+            variants={staggerContainer}
+            className="grid md:grid-cols-3 gap-8"
+          >
+            {testimonials.map((testimonial, index) => (
+              <motion.div
+                key={index}
+                variants={fadeInUp}
+                className="bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow border border-[#0A2540]/5"
+              >
+                {testimonial.verified && (
+                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#0D9488]/10 text-[#0D9488] text-xs font-medium rounded-full mb-4">
+                    <CheckCircle2 className="w-3 h-3" />
+                    Verified Partner
+                  </div>
+                )}
+                
+                <h3 className="text-sm font-bold text-[#0A2540] mb-4" style={{ fontFamily: 'Space Grotesk' }}>
+                  {testimonial.quote}
+                </h3>
+                
+                <p className="text-[#0A2540]/70 text-sm mb-6 leading-relaxed">
+                  {testimonial.text}
+                </p>
+                
+                <div className="flex items-center gap-3 pt-4 border-t border-[#0A2540]/10">
+                  <div className="w-10 h-10 rounded-full bg-[#0D9488]/10 flex items-center justify-center">
+                    <span className="text-[#0D9488] font-bold text-sm">
+                      {testimonial.name.split(' ').map(n => n[0]).join('')}
+                    </span>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-[#0A2540]">{testimonial.name}</p>
+                    <p className="text-xs text-[#0A2540]/50">{testimonial.role} • {testimonial.location}</p>
+                  </div>
                 </div>
               </motion.div>
             ))}

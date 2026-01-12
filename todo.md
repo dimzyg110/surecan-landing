@@ -70,3 +70,10 @@
 - [ ] Implement geotargeting for pharmacy identification (10km radius)
 - [ ] Create location-based landing pages
 - [ ] Add CRM tagging by specialty and location
+
+## MyLeaf Website Inspiration
+- [x] Analyze MyLeaf clinic website design and features
+- [x] Document key design elements to adapt (layout, colors, typography, interactions)
+- [x] Identify UX patterns and content strategies to implement
+- [x] Update Surecan landing page with inspired improvements (sticky announcement bar, enhanced stats, testimonials)
+- [x] Test and validate new design elements
