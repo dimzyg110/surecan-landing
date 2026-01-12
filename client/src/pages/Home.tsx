@@ -197,7 +197,7 @@ function HeroSection() {
             <motion.div variants={fadeInUp} className="mb-6">
               <span className="inline-flex items-center gap-2 px-4 py-2 bg-[#0D9488]/10 text-[#0D9488] text-sm font-medium rounded-full">
                 <Shield className="w-4 h-4" />
-                Authorized Prescriber Status
+                Authorised Prescriber Status
               </span>
             </motion.div>
             
@@ -215,8 +215,8 @@ function HeroSection() {
               variants={fadeInUp}
               className="text-lg text-[#0A2540]/70 mb-8 leading-relaxed"
             >
-              The Shared Care model that stabilizes complex patients and returns them to you. 
-              We handle the complexity—you keep the patient and the revenue.
+              The Shared Care model that stabilises complex patients and returns them to you. 
+              We handle the complexity—you are able to have your patients benefit from additional therapies, with a compliant and ethical ECS consult.
             </motion.p>
             
             <motion.div variants={fadeInUp} className="flex flex-wrap gap-4">
@@ -327,8 +327,8 @@ function ProblemSection() {
           
           <motion.div variants={fadeInUp} className="space-y-6 text-lg text-white/70">
             <p>
-              Traditional cannabis clinics operate as closed loops—patients self-refer, 
-              the clinic keeps them forever, and GPs lose both revenue and visibility into their patient's care.
+              The Majority of cannabis clinics operate as closed loops—patients self-refer, 
+              the clinic keeps them locked in and holds their prescriptions. Patients primary GPs lose visibility into their patient's care. We aim to remedy this disconnect.
             </p>
             <p>
               This model creates fear among healthcare providers: fear of losing patients, 
@@ -374,11 +374,11 @@ function ProblemSection() {
               <ul className="space-y-3 text-left text-white/80">
                 <li className="flex items-start gap-3">
                   <span className="text-[#0D9488] mt-1">→</span>
-                  GP refers complex patient
+                  GP refers complex patient OR Patient self-refers and the primary GP is informed for a holistic care model.
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-[#0D9488] mt-1">→</span>
-                  Surecan stabilizes (Item 967)
+                  Surecan clinicians stabilise patient if eligable. This structured on the New Bulk Billing Incentives Program
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-[#0D9488] mt-1">→</span>
