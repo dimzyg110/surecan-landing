@@ -86,3 +86,12 @@
 - [x] Add popup dismiss/close functionality with cookie/localStorage persistence
 - [x] Optimize CTA hierarchy and placement for conversion
 - [x] Test form submission flow and data storage
+
+## Refined UI/UX - Patient-First Conversion Flow
+- [x] Redesign engagement popup with clear audience triage (Patient, Pharmacist, Other Healthcare Practitioner)
+- [x] Prioritize patient consult bookings as primary CTA in popup
+- [x] Update all "Book Now" buttons site-wide to link to HotDoc booking
+- [x] Simplify popup form to reduce cognitive load and friction
+- [x] Add prominent "Book Now" CTAs for each audience segment
+- [x] Ensure mobile-responsive design for popup and CTAs
+- [x] Test conversion flow for all three audience types

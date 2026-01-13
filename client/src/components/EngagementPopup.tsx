@@ -1,60 +1,75 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { X, Mail, User, Phone, Building2 } from "lucide-react";
+import { useState } from "react";
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { X, User, Pill, Stethoscope, ArrowRight } from "lucide-react";
 
 interface EngagementPopupProps {
   onClose: () => void;
 }
 
+type UserType = "patient" | "pharmacist" | "practitioner" | null;
+
 export function EngagementPopup({ onClose }: EngagementPopupProps) {
+  const [userType, setUserType] = useState<UserType>(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     practice: "",
-    role: "GP"
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  const handleUserTypeSelect = (type: UserType) => {
+    setUserType(type);
+    
+    // If patient, redirect immediately to HotDoc
+    if (type === "patient") {
+      window.open("https://www.hotdoc.com.au/medical-centres/surecan", "_blank");
+      // Close popup after brief delay
+      setTimeout(() => {
+        onClose();
+      }, 500);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     try {
-      // Store in database or send to API
-      const response = await fetch('/api/leads', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          ...formData,
-          source: 'engagement_popup',
-          timestamp: new Date().toISOString()
-        })
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          practice: formData.practice,
+          role: userType === "pharmacist" ? "Pharmacist" : "Allied Health",
+          source: "engagement_popup",
+        }),
       });
 
       if (response.ok) {
-        setIsSubmitted(true);
-        // Set cookie to prevent showing again for 30 days
+        setIsSuccess(true);
+        // Set cookie to prevent popup from showing again
         document.cookie = `surecan_popup_shown=true; max-age=${30 * 24 * 60 * 60}; path=/`;
-        
         setTimeout(() => {
           onClose();
         }, 2000);
       }
     } catch (error) {
-      console.error('Failed to submit form:', error);
+      console.error("Error submitting form:", error);
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
+  const handleClose = () => {
+    // Set cookie to prevent popup from showing again for 7 days
+    document.cookie = `surecan_popup_shown=true; max-age=${7 * 24 * 60 * 60}; path=/`;
+    onClose();
   };
 
   return (
@@ -62,163 +77,229 @@ export function EngagementPopup({ onClose }: EngagementPopupProps) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
-      onClick={onClose}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+      onClick={handleClose}
     >
       <motion.div
-        initial={{ scale: 0.9, opacity: 0, y: 20 }}
-        animate={{ scale: 1, opacity: 1, y: 0 }}
-        exit={{ scale: 0.9, opacity: 0, y: 20 }}
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.9, opacity: 0 }}
         transition={{ type: "spring", duration: 0.5 }}
-        className="relative w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden"
+        className="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close button */}
+        {/* Close Button */}
         <button
-          onClick={onClose}
-          className="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 transition-colors z-10"
-          aria-label="Close popup"
+          onClick={handleClose}
+          className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/90 hover:bg-white transition-colors"
+          aria-label="Close"
         >
-          <X className="w-5 h-5 text-gray-500" />
+          <X className="w-5 h-5 text-gray-600" />
         </button>
 
-        {/* Header with gradient */}
-        <div className="bg-gradient-to-br from-[#0D9488] to-[#0A2540] p-8 text-white">
-          <h2 className="text-2xl font-bold mb-2" style={{ fontFamily: 'Space Grotesk' }}>
-            Welcome to Surecan
-          </h2>
+        {/* Header */}
+        <div className="bg-gradient-to-r from-primary to-teal-600 text-white px-8 py-6">
+          <h2 className="text-2xl font-bold mb-2">Welcome to Surecan</h2>
           <p className="text-white/90 text-sm">
-            Join 450+ healthcare professionals using our Shared Care model
+            How can we help you today?
           </p>
         </div>
 
-        {/* Form */}
+        {/* Content */}
         <div className="p-8">
-          {!isSubmitted ? (
+          {!userType ? (
+            /* Triage Step */
+            <div className="space-y-4">
+              <p className="text-gray-700 text-center mb-6">
+                Please select the option that best describes you:
+              </p>
+
+              {/* Patient Option - Primary CTA */}
+              <button
+                onClick={() => handleUserTypeSelect("patient")}
+                className="w-full group relative overflow-hidden rounded-xl border-2 border-primary bg-gradient-to-r from-primary to-teal-600 p-6 text-left transition-all hover:shadow-lg hover:scale-[1.02]"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 rounded-full bg-white/20">
+                      <User className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-white mb-1">
+                        I'm a Patient
+                      </h3>
+                      <p className="text-white/90 text-sm">
+                        Book a consult for medicinal cannabis treatment
+                      </p>
+                    </div>
+                  </div>
+                  <ArrowRight className="w-6 h-6 text-white group-hover:translate-x-1 transition-transform" />
+                </div>
+              </button>
+
+              {/* Pharmacist Option */}
+              <button
+                onClick={() => handleUserTypeSelect("pharmacist")}
+                className="w-full group rounded-xl border-2 border-gray-200 bg-white p-6 text-left transition-all hover:border-primary hover:shadow-md hover:scale-[1.01]"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 rounded-full bg-primary/10">
+                      <Pill className="w-6 h-6 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-gray-900 mb-1">
+                        I'm a Pharmacist
+                      </h3>
+                      <p className="text-gray-600 text-sm">
+                        Learn about our shared care partnership model
+                      </p>
+                    </div>
+                  </div>
+                  <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                </div>
+              </button>
+
+              {/* Healthcare Practitioner Option */}
+              <button
+                onClick={() => handleUserTypeSelect("practitioner")}
+                className="w-full group rounded-xl border-2 border-gray-200 bg-white p-6 text-left transition-all hover:border-primary hover:shadow-md hover:scale-[1.01]"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 rounded-full bg-primary/10">
+                      <Stethoscope className="w-6 h-6 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-gray-900 mb-1">
+                        I'm a Healthcare Practitioner
+                      </h3>
+                      <p className="text-gray-600 text-sm">
+                        Discover referral pathways and clinical support
+                      </p>
+                    </div>
+                  </div>
+                  <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                </div>
+              </button>
+            </div>
+          ) : isSuccess ? (
+            /* Success State */
+            <div className="text-center py-8">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg
+                  className="w-8 h-8 text-green-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">
+                Thank You!
+              </h3>
+              <p className="text-gray-600">
+                We'll be in touch shortly with more information about our Shared Care model.
+              </p>
+            </div>
+          ) : (
+            /* Contact Form for Pharmacist/Practitioner */
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                <h3 className="text-lg font-bold text-gray-900 mb-4">
+                  {userType === "pharmacist"
+                    ? "Pharmacy Partnership Information"
+                    : "Practitioner Referral Information"}
+                </h3>
+                <p className="text-sm text-gray-600 mb-6">
+                  Please provide your details and we'll send you comprehensive information about our Shared Care model.
+                </p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Full Name *
                 </label>
-                <div className="relative">
-                  <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    required
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0D9488] focus:border-transparent outline-none transition-all"
-                    placeholder="Dr. John Smith"
-                  />
-                </div>
+                <input
+                  type="text"
+                  required
+                  value={formData.name}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                  placeholder="Dr. John Smith"
+                />
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Email Address *
                 </label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    required
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0D9488] focus:border-transparent outline-none transition-all"
-                    placeholder="john.smith@clinic.com.au"
-                  />
-                </div>
+                <input
+                  type="email"
+                  required
+                  value={formData.email}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                  placeholder="john.smith@clinic.com.au"
+                />
               </div>
 
               <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Phone Number
                 </label>
-                <div className="relative">
-                  <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0D9488] focus:border-transparent outline-none transition-all"
-                    placeholder="04XX XXX XXX"
-                  />
-                </div>
+                <input
+                  type="tel"
+                  value={formData.phone}
+                  onChange={(e) =>
+                    setFormData({ ...formData, phone: e.target.value })
+                  }
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                  placeholder="04XX XXX XXX"
+                />
               </div>
 
               <div>
-                <label htmlFor="practice" className="block text-sm font-medium text-gray-700 mb-1">
-                  Practice/Clinic Name
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  {userType === "pharmacist" ? "Pharmacy Name" : "Practice/Clinic Name"}
                 </label>
-                <div className="relative">
-                  <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                  <input
-                    type="text"
-                    id="practice"
-                    name="practice"
-                    value={formData.practice}
-                    onChange={handleChange}
-                    className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0D9488] focus:border-transparent outline-none transition-all"
-                    placeholder="Your Practice Name"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-1">
-                  Your Role *
-                </label>
-                <select
-                  id="role"
-                  name="role"
-                  required
-                  value={formData.role}
-                  onChange={handleChange}
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0D9488] focus:border-transparent outline-none transition-all bg-white"
-                >
-                  <option value="GP">General Practitioner</option>
-                  <option value="Pharmacist">Pharmacist</option>
-                  <option value="Physiotherapist">Physiotherapist</option>
-                  <option value="Psychologist">Psychologist</option>
-                  <option value="Allied Health">Allied Health Professional</option>
-                  <option value="Other">Other Healthcare Professional</option>
-                </select>
+                <input
+                  type="text"
+                  value={formData.practice}
+                  onChange={(e) =>
+                    setFormData({ ...formData, practice: e.target.value })
+                  }
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                  placeholder={
+                    userType === "pharmacist"
+                      ? "Your Pharmacy Name"
+                      : "Your Practice Name"
+                  }
+                />
               </div>
 
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-[#0D9488] hover:bg-[#0D9488]/90 text-white py-6 text-base font-medium"
+                className="w-full bg-primary hover:bg-primary/90 text-white py-6 text-lg font-semibold rounded-lg transition-all"
               >
-                {isSubmitting ? "Submitting..." : "Get Started with Surecan"}
+                {isSubmitting ? "Submitting..." : "Get Information"}
               </Button>
 
               <p className="text-xs text-gray-500 text-center">
                 By submitting, you agree to receive information about Surecan's Shared Care model
               </p>
             </form>
-          ) : (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="text-center py-8"
-            >
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Thank You!</h3>
-              <p className="text-gray-600">
-                We'll be in touch shortly to discuss how Surecan can support your practice.
-              </p>
-            </motion.div>
           )}
         </div>
       </motion.div>

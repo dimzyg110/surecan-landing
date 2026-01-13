@@ -264,7 +264,7 @@ function HeroSection() {
               <Button 
                 size="lg"
                 className="bg-[#0D9488] hover:bg-[#0D9488]/90 text-white gap-2"
-                onClick={() => window.location.href = 'https://calendly.com/surecan'}
+                onClick={() => window.open('https://www.hotdoc.com.au/medical-centres/surecan', '_blank')}
               >
                 Book Now
                 <ArrowRight className="w-4 h-4" />
