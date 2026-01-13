@@ -110,6 +110,51 @@ export default function Home() {
     }
   }, []);
 
+  // Add structured data for SEO
+  useEffect(() => {
+    const structuredData = {
+      "@context": "https://schema.org",
+      "@type": "MedicalClinic",
+      "name": "Surecan Clinic",
+      "description": "Australia's leading Shared Care model for medicinal cannabis. Authorised prescriber specialists supporting GPs, pharmacists, and patients with compliant, ethical ECS treatment.",
+      "url": "https://surecan.com.au",
+      "telephone": "1300-787-322",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "AU",
+        "addressRegion": "Australia"
+      },
+      "medicalSpecialty": "Medicinal Cannabis Treatment",
+      "priceRange": "$$",
+      "availableService": [
+        {
+          "@type": "MedicalProcedure",
+          "name": "Medicinal Cannabis Consultation",
+          "description": "Authorised prescriber consultation for medicinal cannabis treatment"
+        },
+        {
+          "@type": "MedicalProcedure",
+          "name": "Shared Care Model",
+          "description": "Collaborative care model that returns patients to their GP for ongoing chronic disease management"
+        }
+      ],
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "reviewCount": "450"
+      }
+    };
+
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.text = JSON.stringify(structuredData);
+    document.head.appendChild(script);
+
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, []);
+
   return (
     <div className="min-h-screen bg-background blueprint-grid">
       {/* Announcement Bar */}
