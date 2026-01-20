@@ -130,3 +130,59 @@
 - [ ] Implement audience toggle/tabs in hero for segmentation
 - [ ] Add tooltips for medical jargon (ECS, CDM, Item 967)
 - [ ] Create Thank You page with next steps after form submission
+
+## Patient & Clinician Portal Implementation
+### Database Schema & Models
+- [x] Extend user table with additional fields (phone, date_of_birth, medical_history, role enum: patient/clinician/admin)
+- [x] Create appointments table (patient_id, clinician_id, scheduled_at, duration, status, video_room_url, google_calendar_event_id)
+- [x] Create prescriptions table (patient_id, clinician_id, medication_name, dosage, instructions, prescribed_at, status)
+- [x] Create medical_records table (patient_id, clinician_id, notes, attachments, created_at)
+- [x] Create messages table (from_user_id, to_user_id, content, read_at, created_at)
+- [x] Push database schema changes with `pnpm db:push`
+
+### Authentication & Access Control
+- [ ] Update registration flow to capture role (patient vs clinician)
+- [ ] Implement role-based middleware for protected routes
+- [ ] Create separate login/register pages for patients and clinicians
+- [ ] Add email verification for new accounts
+- [ ] Implement password reset functionality
+
+### Patient Portal Features
+- [x] Create patient dashboard layout with navigation
+- [x] Build appointments page (view upcoming/past appointments, book new appointments)
+- [ ] Build prescriptions page (view active prescriptions with medication info and education)
+- [ ] Build medical history page (view reported medical history)
+- [ ] Implement chat/messaging to contact clinic nurse or doctor
+- [ ] Add profile management (update contact info, medical history)
+
+### Clinician Portal Features
+- [ ] Create clinician dashboard layout with navigation
+- [ ] Build patient list page (view all patients, search/filter)
+- [ ] Build patient detail page (view individual patient records, history, prescriptions)
+- [ ] Build appointments management page (view schedule, upcoming appointments)
+- [ ] Implement prescription management (create, update prescriptions for patients)
+- [ ] Add medical records management (create/edit notes for patient visits)
+- [ ] Implement messaging system to respond to patient inquiries
+
+### Video Telehealth Integration
+- [ ] Set up Daily.co API integration
+- [ ] Create video consultation room component
+- [ ] Implement "Join Video Call" button in appointments for both patients and clinicians
+- [ ] Add pre-call device testing (camera/microphone check)
+- [ ] Implement waiting room for patients before clinician joins
+- [ ] Add in-call features (mute, video toggle, screen share, end call)
+
+### Google Calendar Integration
+- [ ] Set up Google Calendar API OAuth flow
+- [ ] Implement calendar sync for clinician appointments
+- [ ] Auto-create Google Calendar events when appointments are booked
+- [ ] Add calendar reminders (email/SMS) before appointments
+- [ ] Implement calendar availability checking before booking
+
+### Testing & Deployment
+- [ ] Write unit tests for authentication and role-based access
+- [x] Write unit tests for appointment booking and management (7/8 passing)
+- [ ] Write unit tests for prescription management
+- [ ] Test video call functionality end-to-end
+- [ ] Test Google Calendar integration
+- [ ] Create checkpoint with all portal features

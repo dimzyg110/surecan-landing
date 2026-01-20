@@ -16,10 +16,16 @@ export const users = mysqlTable("users", {
   name: text("name"),
   email: varchar("email", { length: 320 }),
   loginMethod: varchar("loginMethod", { length: 64 }),
-  role: mysqlEnum("role", ["user", "admin"]).default("user").notNull(),
+  role: mysqlEnum("role", ["user", "admin", "patient", "clinician"]).default("user").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
   lastSignedIn: timestamp("lastSignedIn").defaultNow().notNull(),
+  // Additional fields for patient/clinician portals
+  phone: varchar("phone", { length: 50 }),
+  dateOfBirth: varchar("dateOfBirth", { length: 20 }),
+  medicalHistory: text("medicalHistory"),
+  ahpraNumber: varchar("ahpraNumber", { length: 50 }), // For clinicians
+  specialization: varchar("specialization", { length: 255 }), // For clinicians
 });
 
 export type User = typeof users.$inferSelect;
@@ -143,3 +149,85 @@ export const leadActivities = mysqlTable("leadActivities", {
 
 export type LeadActivity = typeof leadActivities.$inferSelect;
 export type InsertLeadActivity = typeof leadActivities.$inferInsert;
+
+/**
+ * Appointments table for patient-clinician consultations
+ */
+export const appointments = mysqlTable("appointments", {
+  id: int("id").autoincrement().primaryKey(),
+  patientId: int("patientId").notNull(),
+  clinicianId: int("clinicianId").notNull(),
+  scheduledAt: timestamp("scheduledAt").notNull(),
+  duration: int("duration").default(30).notNull(), // Duration in minutes
+  status: mysqlEnum("status", ["scheduled", "in_progress", "completed", "cancelled", "no_show"]).default("scheduled").notNull(),
+  appointmentType: mysqlEnum("appointmentType", ["initial", "follow_up", "emergency"]).default("initial").notNull(),
+  videoRoomUrl: varchar("videoRoomUrl", { length: 500 }),
+  googleCalendarEventId: varchar("googleCalendarEventId", { length: 255 }),
+  notes: text("notes"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Appointment = typeof appointments.$inferSelect;
+export type InsertAppointment = typeof appointments.$inferInsert;
+
+/**
+ * Prescriptions table for medication management
+ */
+export const prescriptions = mysqlTable("prescriptions", {
+  id: int("id").autoincrement().primaryKey(),
+  patientId: int("patientId").notNull(),
+  clinicianId: int("clinicianId").notNull(),
+  medicationName: varchar("medicationName", { length: 255 }).notNull(),
+  genericName: varchar("genericName", { length: 255 }),
+  dosage: varchar("dosage", { length: 100 }).notNull(),
+  frequency: varchar("frequency", { length: 100 }).notNull(),
+  instructions: text("instructions"),
+  quantity: int("quantity"),
+  refills: int("refills").default(0).notNull(),
+  prescribedAt: timestamp("prescribedAt").defaultNow().notNull(),
+  expiresAt: timestamp("expiresAt"),
+  status: mysqlEnum("status", ["active", "expired", "cancelled"]).default("active").notNull(),
+  eToken: varchar("eToken", { length: 255 }), // For prescription verification
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Prescription = typeof prescriptions.$inferSelect;
+export type InsertPrescription = typeof prescriptions.$inferInsert;
+
+/**
+ * Medical records table for clinical notes and documentation
+ */
+export const medicalRecords = mysqlTable("medicalRecords", {
+  id: int("id").autoincrement().primaryKey(),
+  patientId: int("patientId").notNull(),
+  clinicianId: int("clinicianId").notNull(),
+  appointmentId: int("appointmentId"),
+  recordType: mysqlEnum("recordType", ["consultation_note", "progress_note", "lab_result", "imaging", "other"]).default("consultation_note").notNull(),
+  title: varchar("title", { length: 255 }).notNull(),
+  content: text("content").notNull(),
+  attachments: text("attachments"), // JSON array of file URLs
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type MedicalRecord = typeof medicalRecords.$inferSelect;
+export type InsertMedicalRecord = typeof medicalRecords.$inferInsert;
+
+/**
+ * Messages table for patient-clinician communication
+ */
+export const messages = mysqlTable("messages", {
+  id: int("id").autoincrement().primaryKey(),
+  fromUserId: int("fromUserId").notNull(),
+  toUserId: int("toUserId").notNull(),
+  subject: varchar("subject", { length: 255 }),
+  content: text("content").notNull(),
+  isRead: int("isRead").default(0).notNull(), // 0 or 1 for boolean
+  readAt: timestamp("readAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type Message = typeof messages.$inferSelect;
+export type InsertMessage = typeof messages.$inferInsert;

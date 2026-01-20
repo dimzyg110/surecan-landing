@@ -11,6 +11,9 @@ import FAQ from "./pages/FAQ";
 import DrLewisProfile from "./pages/DrLewisProfile";
 import PharmacyPartnership from "./pages/PharmacyPartnership";
 import MarketingDashboard from "./pages/MarketingDashboard";
+import PatientDashboard from "./pages/PatientDashboard";
+import ClinicianDashboard from "./pages/ClinicianDashboard";
+import PatientAppointments from "./pages/PatientAppointments";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -23,6 +26,9 @@ function Router() {
       <Route path={"/dr-lewis"} component={DrLewisProfile} />
       <Route path={"/pharmacy-partnership"} component={PharmacyPartnership} />
       <Route path={"/marketing"} component={MarketingDashboard} />
+      <Route path={"/patient"} component={PatientDashboard} />
+      <Route path={"/patient/appointments"} component={PatientAppointments} />
+      <Route path={"/clinician"} component={ClinicianDashboard} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
