@@ -1,5 +1,6 @@
 import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
+import { getLoginUrl } from "@/const";
 import { motion, AnimatePresence } from "framer-motion";
 import { EngagementPopup } from "@/components/EngagementPopup";
 import { 
@@ -214,6 +215,7 @@ export default function Home() {
 
 function Navigation() {
   const [scrolled, setScrolled] = useState(false);
+  const { user, isAuthenticated } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -255,19 +257,47 @@ function Navigation() {
         </div>
         
         <div className="flex gap-2">
-          <Button 
-            variant="outline"
-            className="border-[#0D9488] text-[#0D9488] hover:bg-[#0D9488]/10"
-            onClick={() => window.location.href = '/dashboard'}
-          >
-            Dashboard
-          </Button>
-          <Button 
-            className="bg-[#0D9488] hover:bg-[#0D9488]/90 text-white"
-            onClick={() => window.location.href = '/referral'}
-          >
-            Submit Referral
-          </Button>
+          {isAuthenticated ? (
+            <>
+              <Button 
+                variant="outline"
+                className="border-[#0D9488] text-[#0D9488] hover:bg-[#0D9488]/10"
+                onClick={() => {
+                  if (user?.role === 'patient') {
+                    window.location.href = '/patient';
+                  } else if (user?.role === 'clinician') {
+                    window.location.href = '/clinician';
+                  } else {
+                    window.location.href = '/dashboard';
+                  }
+                }}
+              >
+                Dashboard
+              </Button>
+              <Button 
+                className="bg-[#0D9488] hover:bg-[#0D9488]/90 text-white"
+                onClick={() => window.location.href = '/referral'}
+              >
+                Submit Referral
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button 
+                variant="outline"
+                className="border-[#0D9488] text-[#0D9488] hover:bg-[#0D9488]/10"
+                onClick={() => window.location.href = getLoginUrl()}
+              >
+                Login
+              </Button>
+              <Button 
+                className="bg-[#0D9488] hover:bg-[#0D9488]/90 text-white"
+                onClick={() => window.location.href = 'https://www.hotdoc.com.au/medical-centres/surecan'}
+              >
+                Book Now
+              </Button>
+            </>
+          )}
         </div>
       </div>
     </motion.nav>

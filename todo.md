@@ -186,3 +186,65 @@
 - [ ] Test video call functionality end-to-end
 - [ ] Test Google Calendar integration
 - [ ] Create checkpoint with all portal features
+
+## Login/Register Implementation
+- [ ] Add Login/Register buttons to homepage navigation
+- [ ] Create role selection page (Patient vs Clinician login)
+- [ ] Implement OAuth login flow with Manus authentication
+- [ ] Add post-login redirect to appropriate dashboard based on role
+- [ ] Create user profile setup page for first-time users
+- [ ] Test complete login flow for both patient and clinician roles
+
+## Daily.co Video Telehealth Integration
+- [x] Install Daily.co SDK dependencies
+- [x] Create video room management tRPC procedures (create room, get room URL)
+- [x] Integrate automatic room creation when appointments are booked
+- [x] Add video call component for patients to join consultations
+- [x] Add video call component for clinicians to join consultations
+- [ ] Test video call functionality end-to-end
+- [x] Handle video call errors and connection issues gracefully
+
+## Clinician Portal Implementation
+- [ ] Build clinician dashboard with overview statistics
+- [ ] Create patient list page with search and filtering
+- [ ] Build appointment management page for clinicians
+- [ ] Create patient detail page with medical history
+- [ ] Add prescription management interface for clinicians
+- [ ] Implement medical records viewing and editing
+- [ ] Add messaging interface for clinician-patient communication
+- [ ] Test all clinician portal features
+
+## Google Calendar Integration
+- [ ] Set up Google Calendar API credentials
+- [ ] Create calendar integration tRPC procedures
+- [ ] Implement automatic calendar event creation on appointment booking
+- [ ] Add calendar event updates when appointments are modified
+- [ ] Add calendar event deletion when appointments are cancelled
+- [ ] Implement email reminders before appointments
+- [ ] Test calendar sync functionality
+
+## Comprehensive UX/UI Assessment & Optimization
+- [ ] Conduct full user flow analysis for all three user types
+- [ ] Identify friction points and conversion blockers
+- [ ] Analyze information architecture and navigation
+- [ ] Review visual hierarchy and design consistency
+- [ ] Test mobile responsiveness across all pages
+- [ ] Implement identified UX improvements
+- [ ] Optimize page load performance
+- [ ] Add cannabiswarehouse.com.au backlink in footer
+
+## Stripe Payment Integration
+- [ ] Install Stripe SDK dependencies
+- [ ] Set up Stripe API keys (test and production)
+- [ ] Create payment intent tRPC procedures
+- [ ] Add payment form to appointment booking flow
+- [ ] Implement payment confirmation before booking completion
+- [ ] Add payment history page for patients
+- [ ] Test payment flow end-to-end with test cards
+- [ ] Handle payment errors and edge cases
+
+## Final Testing & Deployment
+- [ ] Test complete patient journey (registration → booking → payment → video call)
+- [ ] Test complete clinician workflow (login → patient management → consultation)
+- [ ] Verify all integrations working (Daily.co, Google Calendar, Stripe)
+- [ ] Create comprehensive checkpoint with all features

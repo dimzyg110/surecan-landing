@@ -4,6 +4,7 @@ import { getDb } from "../db";
 import { appointments, users } from "../../drizzle/schema";
 import { eq, and, gte, desc } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
+import { createVideoRoom } from "../_core/daily";
 
 export const appointmentsRouter = router({
   // Get all appointments for the current user (patient or clinician)
@@ -148,6 +149,27 @@ export const appointmentsRouter = router({
         });
       }
 
+      // Create Daily.co video room for this appointment
+      const roomName = `appointment-${Date.now()}-${Math.random().toString(36).substring(7)}`;
+      let videoRoomUrl: string | null = null;
+      
+      try {
+        const videoRoom = await createVideoRoom({
+          name: roomName,
+          privacy: "private",
+          properties: {
+            exp: Math.floor(new Date(input.scheduledAt).getTime() / 1000) + (input.duration * 60) + 3600, // Expires 1 hour after appointment ends
+            enable_screenshare: true,
+            enable_chat: true,
+            enable_prejoin_ui: true,
+          },
+        });
+        videoRoomUrl = videoRoom.url;
+      } catch (error) {
+        console.error("Failed to create video room:", error);
+        // Continue without video room - can be added later
+      }
+      
       const result = await db.insert(appointments).values({
         patientId: user.id,
         clinicianId: input.clinicianId,
@@ -156,11 +178,13 @@ export const appointmentsRouter = router({
         appointmentType: input.appointmentType,
         status: "scheduled",
         notes: input.notes,
+        videoRoomUrl,
       });
 
       return {
         success: true,
         appointmentId: Number((result as any).insertId),
+        videoRoomUrl,
       };
     }),
 
