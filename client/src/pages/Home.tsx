@@ -166,6 +166,9 @@ export default function Home() {
       {/* Hero Section */}
       <HeroSection />
       
+      {/* Patient-Specific Section */}
+      <PatientSection />
+      
       {/* Problem Statement */}
       <ProblemSection />
       
@@ -187,6 +190,9 @@ export default function Home() {
       {/* Testimonials */}
       <TestimonialsSection />
       
+      {/* FAQ Section */}
+      <FAQSection />
+      
       {/* CTA Section */}
       <CTASection />
       
@@ -199,6 +205,9 @@ export default function Home() {
           <EngagementPopup onClose={() => setShowPopup(false)} />
         )}
       </AnimatePresence>
+      
+      {/* Floating Mobile CTA */}
+      <FloatingMobileCTA />
     </div>
   );
 }
@@ -378,6 +387,137 @@ function HeroSection() {
             <span className="text-xs">Scroll to explore</span>
             <ChevronDown className="w-5 h-5 animate-bounce" />
           </a>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+function PatientSection() {
+  return (
+    <section id="for-patients" className="py-24 bg-gradient-to-br from-[#F8FAFC] to-white">
+      <div className="container">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={staggerContainer}
+          className="max-w-5xl mx-auto"
+        >
+          <div className="text-center mb-16">
+            <motion.span 
+              variants={fadeInUp}
+              className="inline-block px-4 py-2 bg-[#0D9488]/10 text-[#0D9488] text-sm font-medium rounded-full mb-6"
+            >
+              For Patients
+            </motion.span>
+            
+            <motion.h2 
+              variants={fadeInUp}
+              className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0A2540] mb-6"
+              style={{ fontFamily: 'Space Grotesk' }}
+            >
+              Is Medicinal Cannabis Right for You?
+            </motion.h2>
+            
+            <motion.p 
+              variants={fadeInUp}
+              className="text-lg text-[#0A2540]/70 max-w-3xl mx-auto"
+            >
+              We provide compliant, ethical medicinal cannabis consultations for patients with chronic conditions. 
+              Our Authorised Prescriber status ensures you receive expert care in a Shared Care model with your GP.
+            </motion.p>
+          </div>
+          
+          {/* Eligibility & What to Expect */}
+          <motion.div 
+            variants={fadeInUp}
+            className="grid md:grid-cols-2 gap-8 mb-16"
+          >
+            <div className="bg-white p-8 rounded-xl shadow-lg border border-[#0D9488]/10">
+              <div className="w-12 h-12 rounded-full bg-[#0D9488]/10 flex items-center justify-center mb-4">
+                <CheckCircle2 className="w-6 h-6 text-[#0D9488]" />
+              </div>
+              <h3 className="text-xl font-bold text-[#0A2540] mb-4" style={{ fontFamily: 'Space Grotesk' }}>
+                Am I Eligible?
+              </h3>
+              <ul className="space-y-3 text-[#0A2540]/70">
+                <li className="flex items-start gap-3">
+                  <span className="text-[#0D9488] mt-1">✓</span>
+                  <span>Chronic pain not responding to conventional treatments</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-[#0D9488] mt-1">✓</span>
+                  <span>Anxiety or sleep disorders impacting quality of life</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-[#0D9488] mt-1">✓</span>
+                  <span>Neurological conditions (epilepsy, MS, Parkinson's)</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-[#0D9488] mt-1">✓</span>
+                  <span>Cancer-related symptoms or treatment side effects</span>
+                </li>
+              </ul>
+            </div>
+            
+            <div className="bg-white p-8 rounded-xl shadow-lg border border-[#0D9488]/10">
+              <div className="w-12 h-12 rounded-full bg-[#0D9488]/10 flex items-center justify-center mb-4">
+                <Clock className="w-6 h-6 text-[#0D9488]" />
+              </div>
+              <h3 className="text-xl font-bold text-[#0A2540] mb-4" style={{ fontFamily: 'Space Grotesk' }}>
+                What to Expect
+              </h3>
+              <ul className="space-y-3 text-[#0A2540]/70">
+                <li className="flex items-start gap-3">
+                  <span className="text-[#0D9488] mt-1">1.</span>
+                  <span><strong>Initial Consultation:</strong> Comprehensive assessment with our Authorised Prescriber (30-45 mins)</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-[#0D9488] mt-1">2.</span>
+                  <span><strong>Treatment Plan:</strong> Personalized cannabinoid therapy tailored to your condition</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-[#0D9488] mt-1">3.</span>
+                  <span><strong>Return to GP:</strong> Once stabilized, ongoing care with your regular GP (Shared Care model)</span>
+                </li>
+              </ul>
+            </div>
+          </motion.div>
+          
+          {/* Patient CTAs */}
+          <motion.div 
+            variants={fadeInUp}
+            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+          >
+            <Button 
+              size="lg"
+              className="bg-[#0D9488] hover:bg-[#0D9488]/90 text-white gap-2"
+              onClick={() => window.open('https://www.hotdoc.com.au/medical-centres/surecan', '_blank')}
+            >
+              Book Consultation Now
+              <ArrowRight className="w-4 h-4" />
+            </Button>
+            <Button 
+              size="lg"
+              variant="outline"
+              className="border-[#0D9488] text-[#0D9488] hover:bg-[#0D9488]/5"
+              onClick={() => alert('Eligibility checker coming soon!')}
+            >
+              Check If You're Eligible
+            </Button>
+          </motion.div>
+          
+          {/* Trust signal */}
+          <motion.div 
+            variants={fadeInUp}
+            className="mt-12 text-center"
+          >
+            <p className="text-sm text-[#0A2540]/50">
+              <Shield className="w-4 h-4 inline mr-2" />
+              TGA-compliant • AHPRA-registered • Bulk billing available for eligible patients
+            </p>
+          </motion.div>
         </motion.div>
       </div>
     </section>
@@ -1136,6 +1276,123 @@ function TestimonialsSection() {
   );
 }
 
+function FAQSection() {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  
+  const faqs = [
+    {
+      question: "Is medicinal cannabis legal in Australia?",
+      answer: "Yes. Medicinal cannabis is legal in Australia when prescribed by an authorised prescriber or through the TGA's Special Access Scheme (SAS). Surecan operates as an Authorised Prescriber, ensuring full compliance with TGA regulations."
+    },
+    {
+      question: "Will my GP know about my treatment?",
+      answer: "Absolutely. Our Shared Care model ensures your GP is informed and involved throughout your treatment. We send comprehensive patient reviews back to your GP and encourage ongoing collaboration for your chronic disease management."
+    },
+    {
+      question: "How much does a consultation cost?",
+      answer: "Initial consultations are bulk billed for eligible patients under the New Bulk Billing Incentives Program. For patients not eligible for bulk billing, consultation fees apply. Contact us for specific pricing details."
+    },
+    {
+      question: "What conditions can be treated with medicinal cannabis?",
+      answer: "We treat chronic conditions including chronic pain, anxiety, sleep disorders, neurological conditions (epilepsy, MS, Parkinson's), cancer-related symptoms, and other conditions where conventional treatments have been insufficient. Eligibility is assessed on a case-by-case basis."
+    },
+    {
+      question: "How long until I see results?",
+      answer: "Response times vary by individual and condition. Some patients experience relief within days, while others may require several weeks of dose titration. Our nurse-led model provides ongoing support during this stabilization period."
+    },
+    {
+      question: "Can I choose my own pharmacy?",
+      answer: "Yes. Unlike other clinics, we don't lock you into a specific dispensary. Prescriptions are visible on SafeScript and can be filled at your local pharmacy or pharmacy of choice."
+    },
+    {
+      question: "Will I be transferred back to my GP?",
+      answer: "Yes—that's our core promise. The 'Boomerang Protocol' means once you're stabilized, you return to your GP for ongoing chronic disease management. We never take over primary care duties without shared care coordination."
+    },
+    {
+      question: "Is medicinal cannabis covered by insurance?",
+      answer: "Some private health insurers may provide partial rebates for consultations, but medicinal cannabis products themselves are not currently covered by the PBS or most insurance plans. We recommend checking with your insurer for specific coverage details."
+    }
+  ];
+  
+  return (
+    <section id="faq" className="py-24 bg-gradient-to-br from-[#F8FAFC] to-white">
+      <div className="container">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={staggerContainer}
+          className="max-w-4xl mx-auto"
+        >
+          <div className="text-center mb-16">
+            <motion.span 
+              variants={fadeInUp}
+              className="inline-block px-4 py-2 bg-[#0D9488]/10 text-[#0D9488] text-sm font-medium rounded-full mb-6"
+            >
+              Common Questions
+            </motion.span>
+            
+            <motion.h2 
+              variants={fadeInUp}
+              className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0A2540] mb-6"
+              style={{ fontFamily: 'Space Grotesk' }}
+            >
+              Frequently Asked Questions
+            </motion.h2>
+            
+            <motion.p 
+              variants={fadeInUp}
+              className="text-lg text-[#0A2540]/70"
+            >
+              Everything you need to know about our Shared Care model and medicinal cannabis treatment.
+            </motion.p>
+          </div>
+          
+          <motion.div variants={staggerContainer} className="space-y-4">
+            {faqs.map((faq, index) => (
+              <motion.div
+                key={index}
+                variants={fadeInUp}
+                className="bg-white rounded-xl border border-[#0A2540]/10 overflow-hidden"
+              >
+                <button
+                  onClick={() => setOpenIndex(openIndex === index ? null : index)}
+                  className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-[#0D9488]/5 transition-colors"
+                >
+                  <span className="text-lg font-semibold text-[#0A2540] pr-4">
+                    {faq.question}
+                  </span>
+                  <ChevronDown 
+                    className={`w-5 h-5 text-[#0D9488] flex-shrink-0 transition-transform ${
+                      openIndex === index ? 'rotate-180' : ''
+                    }`}
+                  />
+                </button>
+                {openIndex === index && (
+                  <div className="px-6 pb-5 text-[#0A2540]/70 leading-relaxed">
+                    {faq.answer}
+                  </div>
+                )}
+              </motion.div>
+            ))}
+          </motion.div>
+          
+          <motion.div variants={fadeInUp} className="mt-12 text-center">
+            <p className="text-[#0A2540]/60 mb-4">Still have questions?</p>
+            <Button 
+              variant="outline"
+              className="border-[#0D9488] text-[#0D9488] hover:bg-[#0D9488]/5"
+              onClick={() => window.location.href = '/referral'}
+            >
+              Contact Us
+            </Button>
+          </motion.div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
 function CTASection() {
   return (
     <section id="contact" className="py-24 bg-background">
@@ -1212,10 +1469,69 @@ function CTASection() {
   );
 }
 
+function FloatingMobileCTA() {
+  const [isVisible, setIsVisible] = useState(false);
+  
+  useEffect(() => {
+    const handleScroll = () => {
+      // Show button after scrolling 300px
+      setIsVisible(window.scrollY > 300);
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+  
+  return (
+    <AnimatePresence>
+      {isVisible && (
+        <motion.div
+          initial={{ y: 100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: 100, opacity: 0 }}
+          className="fixed bottom-4 left-0 right-0 z-40 px-4 md:hidden"
+        >
+          <Button
+            size="lg"
+            className="w-full bg-[#0D9488] hover:bg-[#0D9488]/90 text-white shadow-2xl gap-2"
+            onClick={() => window.open('https://www.hotdoc.com.au/medical-centres/surecan', '_blank')}
+          >
+            <Phone className="w-5 h-5" />
+            Book Consultation Now
+            <ArrowRight className="w-4 h-4" />
+          </Button>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
 function Footer() {
   return (
     <footer className="py-12 bg-[#0A2540] border-t border-white/10">
       <div className="container">
+        {/* Trust Badges */}
+        <div className="mb-8 pb-8 border-b border-white/10">
+          <div className="flex flex-wrap justify-center items-center gap-8">
+            <div className="flex items-center gap-2 text-white/60">
+              <Shield className="w-5 h-5 text-[#0D9488]" />
+              <span className="text-sm font-medium">TGA Compliant</span>
+            </div>
+            <div className="flex items-center gap-2 text-white/60">
+              <CheckCircle2 className="w-5 h-5 text-[#0D9488]" />
+              <span className="text-sm font-medium">AHPRA Registered</span>
+            </div>
+            <div className="flex items-center gap-2 text-white/60">
+              <FileCheck className="w-5 h-5 text-[#0D9488]" />
+              <span className="text-sm font-medium">Authorised Prescriber</span>
+            </div>
+            <div className="flex items-center gap-2 text-white/60">
+              <Heart className="w-5 h-5 text-[#0D9488]" />
+              <span className="text-sm font-medium">Shared Care Model</span>
+            </div>
+          </div>
+        </div>
+        
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-[#0D9488] flex items-center justify-center">
