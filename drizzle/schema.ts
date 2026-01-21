@@ -171,6 +171,10 @@ export const appointments = mysqlTable("appointments", {
   appointmentType: mysqlEnum("appointmentType", ["initial", "follow_up", "emergency"]).default("initial").notNull(),
   videoRoomUrl: varchar("videoRoomUrl", { length: 500 }),
   googleCalendarEventId: varchar("googleCalendarEventId", { length: 255 }),
+  // Payment tracking
+  stripePaymentIntentId: varchar("stripePaymentIntentId", { length: 255 }),
+  paymentStatus: mysqlEnum("paymentStatus", ["pending", "paid", "failed", "refunded"]).default("pending").notNull(),
+  amountPaid: int("amountPaid"), // Amount in cents
   notes: text("notes"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),

@@ -231,7 +231,7 @@
 - [ ] Test mobile responsiveness across all pages
 - [ ] Implement identified UX improvements
 - [ ] Optimize page load performance
-- [ ] Add cannabiswarehouse.com.au backlink in footer
+- [x] Add cannabiswarehouse.com.au backlink in footer
 
 ## Stripe Payment Integration
 - [ ] Install Stripe SDK dependencies
@@ -270,3 +270,18 @@
 - [ ] Test booking flow end-to-end
 - [ ] Verify all CTAs work correctly
 - [ ] Final checkpoint for launch
+
+
+## Final Launch Features
+- [x] Search and download patient-focused lifestyle images (active elderly couple, family)
+- [x] Add lifestyle imagery to homepage hero and patient section
+- [x] Add cannabiswarehouse.com.au backlink in footer
+- [x] Install Stripe SDK and set up API keys
+- [x] Create payment intent tRPC procedures
+- [x] Add payment tracking to appointments table
+- [x] Create Stripe webhook handler
+- [x] Write and pass Stripe integration tests
+- [ ] Add payment form to booking flow UI
+- [ ] Build referral tracking dashboard for prescribers
+- [ ] Test complete user flows (patient booking + payment, referral submission + tracking)
+- [ ] Final checkpoint for production launch

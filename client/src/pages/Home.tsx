@@ -459,6 +459,27 @@ function PatientSection() {
             </motion.p>
           </div>
           
+          {/* Lifestyle Images */}
+          <motion.div 
+            variants={fadeInUp}
+            className="grid md:grid-cols-2 gap-8 mb-12"
+          >
+            <div className="relative rounded-2xl overflow-hidden shadow-xl">
+              <img 
+                src="/images/lifestyle/elderly-couple-happy.jpg" 
+                alt="Active elderly couple enjoying healthy lifestyle"
+                className="w-full h-64 object-cover"
+              />
+            </div>
+            <div className="relative rounded-2xl overflow-hidden shadow-xl">
+              <img 
+                src="/images/lifestyle/family-healthy.jpg" 
+                alt="Happy family living well with medicinal cannabis support"
+                className="w-full h-64 object-cover"
+              />
+            </div>
+          </motion.div>
+          
           {/* Eligibility & What to Expect */}
           <motion.div 
             variants={fadeInUp}
@@ -1577,6 +1598,9 @@ function Footer() {
           </p>
           
           <div className="flex gap-6">
+            <a href="https://www.cannabiswarehouse.com.au" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-[#0D9488] text-sm transition-colors">
+              Cannabis Warehouse
+            </a>
             <a href="#" className="text-white/40 hover:text-[#0D9488] text-sm transition-colors">
               Privacy Policy
             </a>
