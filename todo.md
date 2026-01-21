@@ -215,13 +215,14 @@
 - [ ] Test all clinician portal features
 
 ## Google Calendar Integration
-- [ ] Set up Google Calendar API credentials
-- [ ] Create calendar integration tRPC procedures
-- [ ] Implement automatic calendar event creation on appointment booking
+- [x] Set up Google Calendar helper functions
+- [x] Create calendar integration in appointments router
+- [x] Implement automatic calendar event creation on appointment booking
+- [x] Add email reminders (24 hours) and popup reminders (1 hour) before appointments
+- [ ] Set up OAuth2 credentials for production (currently using mock implementation)
 - [ ] Add calendar event updates when appointments are modified
 - [ ] Add calendar event deletion when appointments are cancelled
-- [ ] Implement email reminders before appointments
-- [ ] Test calendar sync functionality
+- [ ] Test calendar sync functionality with real Google Calendar
 
 ## Comprehensive UX/UI Assessment & Optimization
 - [ ] Conduct full user flow analysis for all three user types
@@ -281,7 +282,13 @@
 - [x] Add payment tracking to appointments table
 - [x] Create Stripe webhook handler
 - [x] Write and pass Stripe integration tests
-- [ ] Add payment form to booking flow UI
-- [ ] Build referral tracking dashboard for prescribers
+- [x] Add payment form to booking flow UI
+- [x] Display pricing in booking form
+- [x] Integrate Stripe checkout redirect
+- [x] Build referral tracking dashboard for prescribers
+- [x] Create prescriber dashboard page with statistics
+- [x] Add referrals tRPC router for prescriber queries
+- [x] Implement status filtering (pending, contacted, booked, completed)
+- [x] Display referral details and booking links
 - [ ] Test complete user flows (patient booking + payment, referral submission + tracking)
 - [ ] Final checkpoint for production launch

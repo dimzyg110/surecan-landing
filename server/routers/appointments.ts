@@ -5,6 +5,7 @@ import { appointments, users } from "../../drizzle/schema";
 import { eq, and, gte, desc } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 import { createVideoRoom } from "../_core/daily";
+import { createCalendarEvent } from "../_core/googleCalendar";
 
 export const appointmentsRouter = router({
   // Get all appointments for the current user (patient or clinician)
@@ -170,6 +171,40 @@ export const appointmentsRouter = router({
         // Continue without video room - can be added later
       }
       
+      // Create Google Calendar event
+      let googleCalendarEventId: string | null = null;
+      try {
+        const scheduledDate = new Date(input.scheduledAt);
+        const endDate = new Date(scheduledDate.getTime() + input.duration * 60000);
+        
+        googleCalendarEventId = await createCalendarEvent({
+          summary: `${input.appointmentType === "initial" ? "Initial" : "Follow-up"} Consultation - Surecan`,
+          description: `Video consultation with ${clinician[0].name}${input.notes ? `\n\nNotes: ${input.notes}` : ""}${videoRoomUrl ? `\n\nVideo Call: ${videoRoomUrl}` : ""}`,
+          start: {
+            dateTime: scheduledDate.toISOString(),
+            timeZone: "Australia/Sydney",
+          },
+          end: {
+            dateTime: endDate.toISOString(),
+            timeZone: "Australia/Sydney",
+          },
+          attendees: [
+            { email: user.email || "", displayName: user.name || "" },
+            { email: clinician[0].email || "", displayName: clinician[0].name || "" },
+          ],
+          reminders: {
+            useDefault: false,
+            overrides: [
+              { method: "email", minutes: 24 * 60 }, // 1 day before
+              { method: "popup", minutes: 60 }, // 1 hour before
+            ],
+          },
+        });
+      } catch (error) {
+        console.error("Failed to create calendar event:", error);
+        // Continue without calendar event - can be added later
+      }
+      
       const result = await db.insert(appointments).values({
         patientId: user.id,
         clinicianId: input.clinicianId,
@@ -179,6 +214,7 @@ export const appointmentsRouter = router({
         status: "scheduled",
         notes: input.notes,
         videoRoomUrl,
+        googleCalendarEventId,
       });
 
       return {

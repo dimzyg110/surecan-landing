@@ -226,6 +226,7 @@ function BookingFormModal({ clinicians, onClose, onSuccess }: BookingFormModalPr
   const [notes, setNotes] = useState("");
 
   const createMutation = trpc.appointments.create.useMutation();
+  const createCheckoutMutation = trpc.stripe.createCheckoutSession.useMutation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -236,8 +237,9 @@ function BookingFormModal({ clinicians, onClose, onSuccess }: BookingFormModalPr
     }
 
     try {
+      // Step 1: Create the appointment
       const scheduledAt = new Date(`${appointmentDate}T${appointmentTime}`);
-      await createMutation.mutateAsync({
+      const appointment = await createMutation.mutateAsync({
         clinicianId: Number(selectedClinician),
         scheduledAt: scheduledAt.toISOString(),
         duration: 30,
@@ -245,7 +247,23 @@ function BookingFormModal({ clinicians, onClose, onSuccess }: BookingFormModalPr
         notes: notes || undefined,
       });
 
-      toast.success("Appointment booked successfully!");
+      // Step 2: Create Stripe checkout session for payment
+      const productType = appointmentType === "initial" 
+        ? "INITIAL_CONSULTATION" 
+        : "FOLLOW_UP_CONSULTATION";
+      
+      const { checkoutUrl } = await createCheckoutMutation.mutateAsync({
+        appointmentId: appointment.appointmentId,
+        productType,
+      });
+
+      // Step 3: Redirect to Stripe checkout
+      if (checkoutUrl) {
+        toast.success("Redirecting to payment...");
+        window.open(checkoutUrl, "_blank");
+      }
+      
+      // Close modal and refresh appointments
       onSuccess();
     } catch (error) {
       toast.error("Failed to book appointment");
@@ -297,9 +315,12 @@ function BookingFormModal({ clinicians, onClose, onSuccess }: BookingFormModalPr
               className="w-full px-4 py-2 border border-[#0A2540]/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0D9488]"
               required
             >
-              <option value="initial">Initial Consultation</option>
-              <option value="follow_up">Follow-up</option>
+              <option value="initial">Initial Consultation - $150 AUD (30-45 mins)</option>
+              <option value="follow_up">Follow-up Consultation - $75 AUD (15-20 mins)</option>
             </select>
+            <p className="mt-2 text-sm text-[#0A2540]/60">
+              💳 Payment will be processed securely via Stripe after booking
+            </p>
           </div>
 
           {/* Date */}
