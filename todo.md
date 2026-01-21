@@ -259,3 +259,14 @@
 - [ ] Extend referrals table with prescriber_id and pharmacy_id foreign keys
 - [ ] Create referral notification email templates
 - [ ] Test complete referral creation flow (prescriber → patient booking)
+
+
+## Launch Preparation - Critical Fixes
+- [x] Fix referral loading error when admin completes a referral (fixed status enum mismatch)
+- [x] Remove dynamic dashboard (removed MarketingDashboard)
+- [x] Fix TypeScript errors in book-appointment route (removed incomplete file)
+- [x] Streamline navigation and remove unused routes
+- [ ] Test referral submission flow end-to-end
+- [ ] Test booking flow end-to-end
+- [ ] Verify all CTAs work correctly
+- [ ] Final checkpoint for launch

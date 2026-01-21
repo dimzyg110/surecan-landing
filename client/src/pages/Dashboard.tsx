@@ -92,7 +92,8 @@ export default function Dashboard() {
   const getStatusBadge = (status: string) => {
     const variants: Record<string, "default" | "secondary" | "destructive" | "outline"> = {
       pending: "outline",
-      in_progress: "default",
+      contacted: "default",
+      booked: "default",
       completed: "secondary",
       cancelled: "destructive",
     };

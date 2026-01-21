@@ -10,7 +10,6 @@ import Dashboard from "./pages/Dashboard";
 import FAQ from "./pages/FAQ";
 import DrLewisProfile from "./pages/DrLewisProfile";
 import PharmacyPartnership from "./pages/PharmacyPartnership";
-import MarketingDashboard from "./pages/MarketingDashboard";
 import PatientDashboard from "./pages/PatientDashboard";
 import ClinicianDashboard from "./pages/ClinicianDashboard";
 import PatientAppointments from "./pages/PatientAppointments";
@@ -27,7 +26,6 @@ function Router() {
       <Route path={"/faq"} component={FAQ} />
       <Route path={"/dr-lewis"} component={DrLewisProfile} />
       <Route path={"/pharmacy-partnership"} component={PharmacyPartnership} />
-      <Route path={"/marketing"} component={MarketingDashboard} />
       <Route path={"/patient"} component={PatientDashboard} />
       <Route path={"/patient/appointments"} component={PatientAppointments} />
       <Route path={"/clinician"} component={ClinicianDashboard} />
