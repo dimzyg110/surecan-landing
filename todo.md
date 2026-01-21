@@ -248,3 +248,14 @@
 - [ ] Test complete clinician workflow (login → patient management → consultation)
 - [ ] Verify all integrations working (Daily.co, Google Calendar, Stripe)
 - [ ] Create comprehensive checkpoint with all features
+
+## TIER 1: Critical UX Fixes (Week 1) - Senior Audit Recommendations
+- [ ] Replace external HotDoc link with internal booking button (/book page)
+- [ ] Create referral submission form page (/submit-referral)
+- [ ] Add role-based login pages (/patient/login, /prescriber/login, /pharmacy/login)
+- [ ] Generate unique referral IDs (SURE-R-XXXXXX) and patient IDs (SURE-P-XXXXXX)
+- [ ] Add unique_booking_link field to referrals table
+- [ ] Update "Submit Referral" nav link to point to /submit-referral
+- [ ] Extend referrals table with prescriber_id and pharmacy_id foreign keys
+- [ ] Create referral notification email templates
+- [ ] Test complete referral creation flow (prescriber → patient booking)

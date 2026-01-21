@@ -23,9 +23,9 @@ export function EngagementPopup({ onClose }: EngagementPopupProps) {
   const handleUserTypeSelect = (type: UserType) => {
     setUserType(type);
     
-    // If patient, redirect immediately to HotDoc
+    // If patient, redirect immediately to internal booking page
     if (type === "patient") {
-      window.open("https://www.hotdoc.com.au/medical-centres/surecan", "_blank");
+      window.location.href = "/book";
       // Close popup after brief delay
       setTimeout(() => {
         onClose();

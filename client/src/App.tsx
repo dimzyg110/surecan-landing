@@ -14,6 +14,8 @@ import MarketingDashboard from "./pages/MarketingDashboard";
 import PatientDashboard from "./pages/PatientDashboard";
 import ClinicianDashboard from "./pages/ClinicianDashboard";
 import PatientAppointments from "./pages/PatientAppointments";
+import BookAppointment from "./pages/BookAppointment";
+import SubmitReferral from "./pages/SubmitReferral";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -29,6 +31,8 @@ function Router() {
       <Route path={"/patient"} component={PatientDashboard} />
       <Route path={"/patient/appointments"} component={PatientAppointments} />
       <Route path={"/clinician"} component={ClinicianDashboard} />
+      <Route path={"/book"} component={BookAppointment} />
+      <Route path={"/submit-referral"} component={SubmitReferral} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

@@ -3,6 +3,7 @@ import { getDb } from "../db";
 import { referrals, type InsertReferral } from "../../drizzle/schema";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
+import { generateReferralId, generateBookingLink } from "../utils/identifiers";
 
 const router = Router();
 
@@ -37,8 +38,14 @@ router.post("/", async (req, res) => {
     
     const validatedData = referralSchema.parse(req.body);
     
+    // Generate unique identifiers
+    const referralId = generateReferralId();
+    const uniqueBookingLink = generateBookingLink(referralId, req.protocol + '://' + req.get('host'));
+    
     const insertData: InsertReferral = {
       ...validatedData,
+      referralId,
+      uniqueBookingLink,
       patientEmail: validatedData.patientEmail || null,
       status: "pending",
     };
@@ -158,8 +165,7 @@ router.patch("/:id/status", async (req, res) => {
     
     const id = parseInt(req.params.id);
     const { status, notes } = req.body;
-    
-    if (!["pending", "in_progress", "completed", "cancelled"].includes(status)) {
+        if (!["pending", "contacted", "booked", "completed", "cancelled"].includes(status)) {
       res.status(400).json({
         success: false,
         message: "Invalid status value",

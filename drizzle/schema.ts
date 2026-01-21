@@ -36,6 +36,13 @@ export type InsertUser = typeof users.$inferInsert;
  */
 export const referrals = mysqlTable("referrals", {
   id: int("id").autoincrement().primaryKey(),
+  // Unique Identifiers (SURE-R-XXXXXX format)
+  referralId: varchar("referralId", { length: 50 }).notNull().unique(),
+  patientId: varchar("patientId", { length: 50 }), // SURE-P-XXXXXX format, assigned after booking
+  uniqueBookingLink: varchar("uniqueBookingLink", { length: 500 }).notNull().unique(),
+  // Foreign Keys for referrer tracking
+  prescriberId: int("prescriberId"), // Links to users table if prescriber has account
+  pharmacyId: int("pharmacyId"), // Links to users table if pharmacy has account
   // Patient Information
   patientName: varchar("patientName", { length: 255 }).notNull(),
   patientEmail: varchar("patientEmail", { length: 320 }),
@@ -53,7 +60,8 @@ export const referrals = mysqlTable("referrals", {
   relevantHistory: text("relevantHistory"),
   urgency: mysqlEnum("urgency", ["routine", "urgent", "emergency"]).default("routine").notNull(),
   // Status
-  status: mysqlEnum("status", ["pending", "in_progress", "completed", "cancelled"]).default("pending").notNull(),
+  status: mysqlEnum("status", ["pending", "contacted", "booked", "completed", "cancelled"]).default("pending").notNull(),
+  bookingCompletedAt: timestamp("bookingCompletedAt"),
   notes: text("notes"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),

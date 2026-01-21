@@ -292,7 +292,7 @@ function Navigation() {
               </Button>
               <Button 
                 className="bg-[#0D9488] hover:bg-[#0D9488]/90 text-white"
-                onClick={() => window.location.href = 'https://www.hotdoc.com.au/medical-centres/surecan'}
+                onClick={() => window.location.href = '/book'}
               >
                 Book Now
               </Button>
@@ -348,7 +348,7 @@ function HeroSection() {
               <Button 
                 size="lg"
                 className="bg-[#0D9488] hover:bg-[#0D9488]/90 text-white gap-2"
-                onClick={() => window.open('https://www.hotdoc.com.au/medical-centres/surecan', '_blank')}
+                onClick={() => window.location.href = '/book'}
               >
                 Book Now
                 <ArrowRight className="w-4 h-4" />
@@ -357,9 +357,9 @@ function HeroSection() {
                 size="lg"
                 variant="outline"
                 className="border-[#0A2540]/20 text-[#0A2540] hover:bg-[#0A2540]/5"
-                onClick={() => window.location.href = '/referral'}
+                onClick={() => window.location.href = '/submit-referral'}
               >
-                Request Referral Information
+                Submit Patient Referral
               </Button>
             </motion.div>
             
@@ -523,7 +523,7 @@ function PatientSection() {
             <Button 
               size="lg"
               className="bg-[#0D9488] hover:bg-[#0D9488]/90 text-white gap-2"
-              onClick={() => window.open('https://www.hotdoc.com.au/medical-centres/surecan', '_blank')}
+              onClick={() => window.location.href = '/book'}
             >
               Book Consultation Now
               <ArrowRight className="w-4 h-4" />
@@ -1524,7 +1524,7 @@ function FloatingMobileCTA() {
           <Button
             size="lg"
             className="w-full bg-[#0D9488] hover:bg-[#0D9488]/90 text-white shadow-2xl gap-2"
-            onClick={() => window.open('https://www.hotdoc.com.au/medical-centres/surecan', '_blank')}
+            onClick={() => window.location.href = '/book'}
           >
             <Phone className="w-5 h-5" />
             Book Consultation Now

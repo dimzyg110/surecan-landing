@@ -170,9 +170,9 @@ export default function Dashboard() {
           </Card>
           <Card className="bg-white/95 backdrop-blur">
             <CardHeader className="pb-2">
-              <CardDescription>In Progress</CardDescription>
+              <CardDescription>Contacted</CardDescription>
               <CardTitle className="text-3xl text-blue-600">
-                {referrals.filter((r) => r.status === "in_progress").length}
+                {referrals.filter((r) => r.status === "contacted").length}
               </CardTitle>
             </CardHeader>
           </Card>
@@ -410,10 +410,10 @@ export default function Dashboard() {
                   <Button
                     variant="outline"
                     size="sm"
-                    disabled={isUpdating || selectedReferral.status === "in_progress"}
-                    onClick={() => updateStatus(selectedReferral.id, "in_progress")}
+                    disabled={isUpdating || selectedReferral.status === "contacted"}
+                    onClick={() => updateStatus(selectedReferral.id, "contacted")}
                   >
-                    In Progress
+                    Contacted
                   </Button>
                   <Button
                     variant="outline"
