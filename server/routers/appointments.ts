@@ -6,6 +6,8 @@ import { eq, and, gte, desc } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 import { createVideoRoom } from "../_core/daily";
 import { createCalendarEvent } from "../_core/googleCalendar";
+import { hasAppointmentConflict } from "../_core/conflictDetection";
+import { logAudit, AuditActions } from "../_core/auditLog";
 
 export const appointmentsRouter = router({
   // Get all appointments for the current user (patient or clinician)
@@ -147,6 +149,21 @@ export const appointmentsRouter = router({
         throw new TRPCError({
           code: "BAD_REQUEST",
           message: "Invalid clinician ID",
+        });
+      }
+
+      // CRITICAL: Check for appointment conflicts
+      const scheduledDate = new Date(input.scheduledAt);
+      const hasConflict = await hasAppointmentConflict({
+        clinicianId: input.clinicianId,
+        scheduledAt: scheduledDate,
+        duration: input.duration,
+      });
+
+      if (hasConflict) {
+        throw new TRPCError({
+          code: "CONFLICT",
+          message: "This time slot is no longer available. Please choose another time.",
         });
       }
 

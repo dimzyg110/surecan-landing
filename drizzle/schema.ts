@@ -1,4 +1,4 @@
-import { int, mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
+import { int, json, mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
 
 /**
  * Core user table backing auth flow.
@@ -30,6 +30,60 @@ export const users = mysqlTable("users", {
 
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
+
+/**
+ * Processed webhooks table for idempotency
+ * Prevents duplicate processing of the same webhook event
+ */
+export const processedWebhooks = mysqlTable("processedWebhooks", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Unique webhook event ID from the provider (e.g., Stripe event.id) */
+  eventId: varchar("eventId", { length: 255 }).notNull().unique(),
+  /** Webhook provider (stripe, twilio, etc.) */
+  provider: varchar("provider", { length: 50 }).notNull(),
+  /** Event type (e.g., checkout.session.completed) */
+  eventType: varchar("eventType", { length: 100 }).notNull(),
+  /** Processing status */
+  status: mysqlEnum("status", ["processing", "completed", "failed"]).default("processing").notNull(),
+  /** Full webhook payload for debugging */
+  payload: json("payload"),
+  /** Error message if processing failed */
+  errorMessage: text("errorMessage"),
+  /** When the webhook was first received */
+  receivedAt: timestamp("receivedAt").defaultNow().notNull(),
+  /** When processing completed */
+  processedAt: timestamp("processedAt"),
+});
+
+export type ProcessedWebhook = typeof processedWebhooks.$inferSelect;
+export type InsertProcessedWebhook = typeof processedWebhooks.$inferInsert;
+
+/**
+ * Audit logs table for tracking all critical actions
+ * Required for HIPAA compliance and security auditing
+ */
+export const auditLogs = mysqlTable("auditLogs", {
+  id: int("id").autoincrement().primaryKey(),
+  /** User who performed the action */
+  userId: int("userId"),
+  /** Action performed (e.g., appointment.created, payment.processed) */
+  action: varchar("action", { length: 100 }).notNull(),
+  /** Resource type (appointment, referral, user, etc.) */
+  resourceType: varchar("resourceType", { length: 50 }).notNull(),
+  /** Resource ID */
+  resourceId: varchar("resourceId", { length: 255 }),
+  /** Additional metadata */
+  metadata: json("metadata"),
+  /** IP address of the request */
+  ipAddress: varchar("ipAddress", { length: 45 }),
+  /** User agent */
+  userAgent: text("userAgent"),
+  /** When the action occurred */
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type AuditLog = typeof auditLogs.$inferSelect;
+export type InsertAuditLog = typeof auditLogs.$inferInsert;
 
 /**
  * Referrals table for storing patient referral submissions
@@ -167,7 +221,7 @@ export const appointments = mysqlTable("appointments", {
   clinicianId: int("clinicianId").notNull(),
   scheduledAt: timestamp("scheduledAt").notNull(),
   duration: int("duration").default(30).notNull(), // Duration in minutes
-  status: mysqlEnum("status", ["scheduled", "in_progress", "completed", "cancelled", "no_show"]).default("scheduled").notNull(),
+  status: mysqlEnum("status", ["pending_payment", "scheduled", "in_progress", "completed", "cancelled", "no_show"]).default("pending_payment").notNull(),
   appointmentType: mysqlEnum("appointmentType", ["initial", "follow_up", "emergency"]).default("initial").notNull(),
   videoRoomUrl: varchar("videoRoomUrl", { length: 500 }),
   googleCalendarEventId: varchar("googleCalendarEventId", { length: 255 }),
@@ -178,7 +232,13 @@ export const appointments = mysqlTable("appointments", {
   notes: text("notes"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
+  /** Soft delete timestamp - null means not deleted */
+  deletedAt: timestamp("deletedAt"),
+}, (table) => ({
+  // Prevent double-booking: same clinician cannot have overlapping appointments
+  // Note: This is a partial solution. Full conflict detection requires application-level logic
+  // to check for time range overlaps before insertion
+}));
 
 export type Appointment = typeof appointments.$inferSelect;
 export type InsertAppointment = typeof appointments.$inferInsert;
