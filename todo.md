@@ -360,3 +360,11 @@
 - [x] Add AI benefits messaging in stats section
 - [x] Emphasize validation of benefits for prescribers, patients, and clinicians
 - [x] Update imagery captions to highlight shared care model advantages
+
+
+## Content Refinements - Collaborative Network Focus
+- [x] Remove compliance dashboard image from safety section
+- [x] Remove revenue-focused stat (replaced with Symptom Improvement metric)
+- [x] Change success metrics heading to "How do we measure success?"
+- [x] Remove "Patient Return to GP" stat
+- [x] Replace individual graphs with collaborative network visualization

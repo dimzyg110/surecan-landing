@@ -951,22 +951,7 @@ function SafetySection() {
             ))}
           </motion.div>
           
-          {/* Compliance Dashboard Preview */}
-          <motion.div 
-            variants={fadeInUp}
-            className="mt-16 max-w-4xl mx-auto"
-          >
-            <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-[#0A2540]/5">
-              <div className="p-4 bg-[#0A2540] text-white">
-                <h4 className="font-medium" style={{ fontFamily: 'Space Grotesk' }}>Live Compliance Dashboard</h4>
-              </div>
-              <img 
-                src="/images/surecan_compliance_dashboard.png" 
-                alt="Live Compliance Monitoring Dashboard"
-                className="w-full h-auto"
-              />
-            </div>
-          </motion.div>
+
         </motion.div>
       </div>
     </section>
@@ -1000,7 +985,7 @@ function StatsSection() {
               className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6"
               style={{ fontFamily: 'Space Grotesk' }}
             >
-              Experience is Everything. Your Health Journey on Mutual Terms.
+              How Do We Measure Success?
             </motion.h2>
           </div>
           
@@ -1015,10 +1000,10 @@ function StatsSection() {
               className="text-center"
             >
               <p className="text-7xl md:text-8xl font-bold text-[#0D9488] mb-3" style={{ fontFamily: 'Space Mono' }}>
-                +{revenueCounter.count}%
+                {revenueCounter.count}%
               </p>
-              <p className="text-xl text-white font-medium mb-2">Revenue Per Session</p>
-              <p className="text-sm text-white/50">AI-Enhanced Workflow Efficiency</p>
+              <p className="text-xl text-white font-medium mb-2">Symptom Improvement</p>
+              <p className="text-sm text-white/50">Measured Patient Outcomes</p>
             </motion.div>
             
             <motion.div 
@@ -1053,11 +1038,7 @@ function StatsSection() {
           >
             <p className="text-lg text-white/80 mb-4 font-medium">Validated Benefits for Everyone</p>
             <p className="text-sm text-white/50 mb-8">Keeping prescribers safe, patients' needs met, and clinical care exercised with real-world evidence</p>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-              <div>
-                <p className="text-4xl font-bold text-white mb-2" style={{ fontFamily: 'Space Mono' }}>100%</p>
-                <p className="text-sm text-white/60">Patient Return to GP</p>
-              </div>
+            <div className="grid grid-cols-3 gap-8">
               <div>
                 <p className="text-4xl font-bold text-white mb-2" style={{ fontFamily: 'Space Mono' }}>450+</p>
                 <p className="text-sm text-white/60">Active Patients</p>
@@ -1068,58 +1049,25 @@ function StatsSection() {
               </div>
               <div>
                 <p className="text-4xl font-bold text-white mb-2" style={{ fontFamily: 'Space Mono' }}>3:1</p>
-                <p className="text-sm text-white/60">Nurse Ratio</p>
+                <p className="text-sm text-white/60">Clinician Support Ratio</p>
               </div>
             </div>
           </motion.div>
           
-          {/* Charts Row */}
-          <motion.div 
-            variants={staggerContainer}
-            className="grid md:grid-cols-2 gap-8"
-          >
-            <motion.div 
-              variants={fadeInUp}
-              className="bg-white rounded-xl overflow-hidden"
-            >
-              <img 
-                src="/images/surecan_outcome_stabilization.png" 
-                alt="Patient Pain Reduction Over Time - Real-world clinical outcomes"
-                className="w-full h-auto"
-              />
-              <div className="p-4 bg-white text-center">
-                <p className="text-sm text-[#0A2540]/70">Real-world patient outcomes validated through AI-assisted monitoring</p>
-              </div>
-            </motion.div>
-            
-            <motion.div 
-              variants={fadeInUp}
-              className="bg-white rounded-xl overflow-hidden"
-            >
-              <img 
-                src="/images/surecan_financial_comparison.png" 
-                alt="Financial Efficiency Comparison - Prescriber revenue protection"
-                className="w-full h-auto"
-              />
-              <div className="p-4 bg-white text-center">
-                <p className="text-sm text-[#0A2540]/70">Prescriber revenue maintained while ensuring clinical safety</p>
-              </div>
-            </motion.div>
-          </motion.div>
-          
-          {/* Workflow Efficiency */}
+          {/* Collaborative Network Visualization */}
           <motion.div 
             variants={fadeInUp}
-            className="mt-8 max-w-2xl mx-auto"
+            className="max-w-4xl mx-auto"
           >
-            <div className="bg-white rounded-xl overflow-hidden">
+            <div className="bg-white rounded-xl overflow-hidden shadow-2xl">
               <img 
-                src="/images/surecan_workflow_efficiency.png" 
-                alt="Patient Care Minutes Comparison - AI-enhanced clinical workflows"
+                src="/images/hero-bridge.png" 
+                alt="Collaborative Care Network - Connecting patients, prescribers, and clinicians"
                 className="w-full h-auto"
               />
-              <div className="p-4 bg-white text-center">
-                <p className="text-sm text-[#0A2540]/70">AI-supported workflows maximize clinician time with patients while maintaining safety standards</p>
+              <div className="p-6 bg-white text-center">
+                <p className="text-lg text-[#0A2540] font-medium mb-2">The Collaborative Care Network</p>
+                <p className="text-sm text-[#0A2540]/70">Connecting patients, prescribers, and specialist clinicians through AI-supported shared care protocols that prioritize safety, outcomes, and continuity of care</p>
               </div>
             </div>
           </motion.div>
