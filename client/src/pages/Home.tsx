@@ -992,7 +992,7 @@ function StatsSection() {
               variants={fadeInUp}
               className="inline-block px-4 py-2 bg-white/10 text-[#0D9488] text-sm font-medium rounded-full mb-6"
             >
-              Proven Results
+              Real-Time Evidence Based and Shared Subjective Protocols
             </motion.span>
             
             <motion.h2 
@@ -1000,7 +1000,7 @@ function StatsSection() {
               className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6"
               style={{ fontFamily: 'Space Grotesk' }}
             >
-              The Numbers Speak
+              Experience is Everything. Your Health Journey on Mutual Terms.
             </motion.h2>
           </div>
           
@@ -1018,7 +1018,7 @@ function StatsSection() {
                 +{revenueCounter.count}%
               </p>
               <p className="text-xl text-white font-medium mb-2">Revenue Per Session</p>
-              <p className="text-sm text-white/50">Force Multiplier Workflow</p>
+              <p className="text-sm text-white/50">AI-Enhanced Workflow Efficiency</p>
             </motion.div>
             
             <motion.div 
@@ -1030,7 +1030,7 @@ function StatsSection() {
                 {efficiencyCounter.count}%
               </p>
               <p className="text-xl text-white font-medium mb-2">More Patient Care Time</p>
-              <p className="text-sm text-white/50">Nurse-Led Model</p>
+              <p className="text-sm text-white/50">AI-Supported Clinical Decision Making</p>
             </motion.div>
             
             <motion.div 
@@ -1042,7 +1042,7 @@ function StatsSection() {
                 {retentionCounter.count}%
               </p>
               <p className="text-xl text-white font-medium mb-2">Patient Retention</p>
-              <p className="text-sm text-white/50">Compliance Monitoring</p>
+              <p className="text-sm text-white/50">Real-Time Compliance & Care Coordination</p>
             </motion.div>
           </motion.div>
           
@@ -1051,7 +1051,8 @@ function StatsSection() {
             variants={fadeInUp}
             className="text-center mb-16 max-w-3xl mx-auto"
           >
-            <p className="text-sm text-white/40 mb-8">+Based on clinical outcomes from 450+ active patients</p>
+            <p className="text-lg text-white/80 mb-4 font-medium">Validated Benefits for Everyone</p>
+            <p className="text-sm text-white/50 mb-8">Keeping prescribers safe, patients' needs met, and clinical care exercised with real-world evidence</p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               <div>
                 <p className="text-4xl font-bold text-white mb-2" style={{ fontFamily: 'Space Mono' }}>100%</p>
@@ -1083,9 +1084,12 @@ function StatsSection() {
             >
               <img 
                 src="/images/surecan_outcome_stabilization.png" 
-                alt="Patient Pain Reduction Over Time"
+                alt="Patient Pain Reduction Over Time - Real-world clinical outcomes"
                 className="w-full h-auto"
               />
+              <div className="p-4 bg-white text-center">
+                <p className="text-sm text-[#0A2540]/70">Real-world patient outcomes validated through AI-assisted monitoring</p>
+              </div>
             </motion.div>
             
             <motion.div 
@@ -1094,9 +1098,12 @@ function StatsSection() {
             >
               <img 
                 src="/images/surecan_financial_comparison.png" 
-                alt="Financial Efficiency Comparison"
+                alt="Financial Efficiency Comparison - Prescriber revenue protection"
                 className="w-full h-auto"
               />
+              <div className="p-4 bg-white text-center">
+                <p className="text-sm text-[#0A2540]/70">Prescriber revenue maintained while ensuring clinical safety</p>
+              </div>
             </motion.div>
           </motion.div>
           
@@ -1108,9 +1115,12 @@ function StatsSection() {
             <div className="bg-white rounded-xl overflow-hidden">
               <img 
                 src="/images/surecan_workflow_efficiency.png" 
-                alt="Patient Care Minutes Comparison"
+                alt="Patient Care Minutes Comparison - AI-enhanced clinical workflows"
                 className="w-full h-auto"
               />
+              <div className="p-4 bg-white text-center">
+                <p className="text-sm text-[#0A2540]/70">AI-supported workflows maximize clinician time with patients while maintaining safety standards</p>
+              </div>
             </div>
           </motion.div>
         </motion.div>
