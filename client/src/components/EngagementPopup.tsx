@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { X, User, Pill, Stethoscope, ArrowRight } from "lucide-react";
+import { trpc } from "@/lib/trpc";
 
 interface EngagementPopupProps {
   onClose: () => void;
@@ -33,34 +34,34 @@ export function EngagementPopup({ onClose }: EngagementPopupProps) {
     }
   };
 
+  const createLead = trpc.leads.create.useMutation({
+    onSuccess: () => {
+      setIsSuccess(true);
+      // Set cookie to prevent popup from showing again
+      document.cookie = `surecan_popup_shown=true; max-age=${30 * 24 * 60 * 60}; path=/`;
+      setTimeout(() => {
+        onClose();
+      }, 2000);
+    },
+    onError: (error) => {
+      console.error("Error submitting form:", error);
+      alert("Failed to submit. Please try again.");
+    },
+  });
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("/api/leads", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          practice: formData.practice,
-          role: userType === "pharmacist" ? "Pharmacist" : "Allied Health",
-          source: "engagement_popup",
-        }),
+      await createLead.mutateAsync({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        practice: formData.practice,
+        role: userType === "pharmacist" ? "Pharmacist" : "Allied Health",
+        source: "engagement_popup",
       });
-
-      if (response.ok) {
-        setIsSuccess(true);
-        // Set cookie to prevent popup from showing again
-        document.cookie = `surecan_popup_shown=true; max-age=${30 * 24 * 60 * 60}; path=/`;
-        setTimeout(() => {
-          onClose();
-        }, 2000);
-      }
-    } catch (error) {
-      console.error("Error submitting form:", error);
     } finally {
       setIsSubmitting(false);
     }

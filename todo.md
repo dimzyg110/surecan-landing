@@ -368,3 +368,15 @@
 - [x] Change success metrics heading to "How do we measure success?"
 - [x] Remove "Patient Return to GP" stat
 - [x] Replace individual graphs with collaborative network visualization
+
+
+## Bug Fix - Referral Booking Network Error
+- [x] Check server logs for error details
+- [x] Inspect referral form submission code (EngagementPopup)
+- [x] Test database connection and schema (leads table exists)
+- [x] Create missing leads tRPC router
+- [x] Update EngagementPopup to use tRPC instead of fetch
+- [x] Fix TypeScript errors in leads router
+- [x] Verify server restart and endpoint availability
+- [x] Write and run tests for leads router (4/4 tests passing)
+- [x] Test end-to-end booking flow with real submission
