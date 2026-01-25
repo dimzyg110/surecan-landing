@@ -4,6 +4,7 @@ import { getDb } from "../db";
 import { leads } from "../../drizzle/schema";
 import { eq } from "drizzle-orm";
 import * as schema from "../../drizzle/schema";
+import { sendEmail, createEmailTemplate } from "../_core/email";
 
 export const leadsRouter = router({
   /**
@@ -51,11 +52,14 @@ export const leadsRouter = router({
             })
             .where(eq(leads.id, existingLead.id));
 
-          return {
-            success: true,
-            leadId: existingLead.id,
-            message: "Lead updated successfully",
-          };
+        // Send thank you email (only for new submissions, not updates)
+        // Skip email for updates to avoid spam
+        
+        return {
+          success: true,
+          leadId: existingLead.id,
+          message: "Lead updated successfully",
+        };
         }
 
         // Create new lead
@@ -69,6 +73,54 @@ export const leadsRouter = router({
           engagementScore: 5,
           lastActivityAt: new Date(),
         });
+
+        // Send thank you email to new lead
+        try {
+          const emailContent = createEmailTemplate(`
+            <h2>Thank You for Your Interest! 🙏</h2>
+            <p>Hi ${input.name},</p>
+            <p>Thank you for reaching out to Surecan Clinic. We're excited to connect with you about our Shared Care model for medical cannabis.</p>
+            
+            <div class="info-box">
+              <strong>What Happens Next?</strong><br>
+              Our team will review your inquiry and reach out within 1-2 business days to discuss:
+              <ul style="margin: 12px 0; padding-left: 20px;">
+                <li>How our Shared Care model works</li>
+                <li>Revenue protection for your practice</li>
+                <li>Patient outcomes and success rates</li>
+                <li>Getting started with referrals</li>
+              </ul>
+            </div>
+
+            <h3>In the Meantime</h3>
+            <p>Feel free to explore our website to learn more about:</p>
+            <ul>
+              <li><strong>The Boomerang Protocol:</strong> How we return patients to your care</li>
+              <li><strong>Safety & Compliance:</strong> Our TGA-approved processes</li>
+              <li><strong>Prescriber Support:</strong> Resources and training available</li>
+            </ul>
+
+            <a href="https://surecan.com.au" class="button">Visit Our Website</a>
+
+            <h3>Questions?</h3>
+            <p>Don't hesitate to reach out:</p>
+            <p>📞 <strong>1300 SURECAN</strong> | 📧 <strong>info@surecan.com.au</strong></p>
+
+            <p style="margin-top: 32px;">We look forward to partnering with you!</p>
+            <p><strong>The Surecan Team</strong></p>
+          `);
+
+          await sendEmail({
+            to: input.email,
+            subject: "Thank You for Your Interest - Surecan Clinic",
+            html: emailContent,
+          });
+
+          console.log("[Leads] Thank you email sent to:", input.email);
+        } catch (emailError) {
+          console.error("[Leads] Failed to send thank you email:", emailError);
+          // Don't fail the lead creation if email fails
+        }
 
         return {
           success: true,

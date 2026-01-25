@@ -8,6 +8,8 @@ import { createVideoRoom } from "../_core/daily";
 import { createCalendarEvent } from "../_core/googleCalendar";
 import { hasAppointmentConflict } from "../_core/conflictDetection";
 import { logAudit, AuditActions } from "../_core/auditLog";
+import { sendEmail, createEmailTemplate } from "../_core/email";
+import { generateAppointmentICS } from "../_core/calendar";
 
 export const appointmentsRouter = router({
   // Get all appointments for the current user (patient or clinician)
@@ -234,9 +236,93 @@ export const appointmentsRouter = router({
         googleCalendarEventId,
       });
 
+      const appointmentId = Number((result as any).insertId);
+
+      // Send confirmation email with calendar attachment
+      if (user.email) {
+        try {
+          const scheduledDate = new Date(input.scheduledAt);
+          const endDate = new Date(scheduledDate.getTime() + input.duration * 60000);
+          
+          // Generate .ics calendar file
+          const icsContent = generateAppointmentICS({
+            title: `${input.appointmentType === "initial" ? "Initial" : "Follow-up"} Consultation - Surecan`,
+            description: `Video consultation with ${clinician[0].name || "your clinician"}${input.notes ? `\n\nNotes: ${input.notes}` : ""}${videoRoomUrl ? `\n\nVideo Call: ${videoRoomUrl}` : ""}`,
+            location: videoRoomUrl || "Video Call (link will be sent)",
+            startTime: scheduledDate,
+            endTime: endDate,
+            organizerEmail: "appointments@surecan.com.au",
+            attendeeEmail: user.email,
+          });
+
+          const emailContent = createEmailTemplate(`
+            <h2>Appointment Confirmed! 🎉</h2>
+            <p>Hi ${user.name || "there"},</p>
+            <p>Your appointment has been successfully booked with Surecan Clinic.</p>
+            
+            <div class="info-box">
+              <strong>Appointment Details:</strong><br>
+              <strong>Type:</strong> ${input.appointmentType === "initial" ? "Initial Consultation" : "Follow-up Consultation"}<br>
+              <strong>Date & Time:</strong> ${scheduledDate.toLocaleString("en-AU", { 
+                weekday: "long", 
+                year: "numeric", 
+                month: "long", 
+                day: "numeric", 
+                hour: "2-digit", 
+                minute: "2-digit",
+                timeZone: "Australia/Sydney"
+              })} AEDT<br>
+              <strong>Duration:</strong> ${input.duration} minutes<br>
+              <strong>Clinician:</strong> ${clinician[0].name || "TBA"}
+            </div>
+
+            ${videoRoomUrl ? `
+              <p><strong>Video Call Link:</strong></p>
+              <a href="${videoRoomUrl}" class="button">Join Video Call</a>
+              <p style="font-size: 14px; color: #64748b;">You can join the call up to 15 minutes before your appointment time.</p>
+            ` : ""}
+
+            <h3>What to Prepare:</h3>
+            <ul>
+              <li>Your medical history and current medications</li>
+              <li>List of symptoms or concerns you want to discuss</li>
+              <li>Photo ID for verification</li>
+              <li>Medicare card (if applicable)</li>
+            </ul>
+
+            <h3>Need to Reschedule?</h3>
+            <p>Please contact us at least 24 hours before your appointment:</p>
+            <p>📞 <strong>1300 SURECAN</strong> | 📧 <strong>appointments@surecan.com.au</strong></p>
+
+            <p style="margin-top: 32px;">We look forward to seeing you!</p>
+            <p><strong>The Surecan Team</strong></p>
+          `);
+
+          const attachments = icsContent ? [
+            {
+              filename: "appointment.ics",
+              content: icsContent,
+              contentType: "text/calendar",
+            },
+          ] : [];
+
+          await sendEmail({
+            to: user.email,
+            subject: `Appointment Confirmed - ${scheduledDate.toLocaleDateString("en-AU")}`,
+            html: emailContent,
+            attachments,
+          });
+
+          console.log("[Appointments] Confirmation email sent to:", user.email);
+        } catch (emailError) {
+          console.error("[Appointments] Failed to send confirmation email:", emailError);
+          // Don't fail the appointment creation if email fails
+        }
+      }
+
       return {
         success: true,
-        appointmentId: Number((result as any).insertId),
+        appointmentId,
         videoRoomUrl,
       };
     }),

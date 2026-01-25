@@ -380,3 +380,35 @@
 - [x] Verify server restart and endpoint availability
 - [x] Write and run tests for leads router (4/4 tests passing)
 - [x] Test end-to-end booking flow with real submission
+
+
+## Email Confirmation Feature
+### Phase 1: Email Service Setup
+- [x] Install nodemailer package for email sending
+- [x] Create email service helper with SMTP configuration
+- [x] Create reusable email template system
+- [x] Add email styling (responsive HTML templates)
+- [x] Create .ics calendar file generator
+
+### Phase 2: Booking Confirmation Emails
+- [x] Create booking confirmation email template
+- [x] Generate .ics calendar attachment for appointments
+- [x] Send confirmation email after successful booking
+- [x] Include appointment details (date, time, clinician, video link)
+- [x] Add cancellation/rescheduling instructions
+- [x] Add preparation checklist for patients
+
+### Phase 3: Lead Confirmation Emails
+- [x] Create lead submission confirmation email template
+- [x] Send thank you email after engagement popup submission
+- [x] Include next steps and contact information
+- [x] Add links to website resources
+
+### Phase 4: Testing
+- [x] Write tests for email sending functionality (6/6 tests passing)
+- [x] Test email service structure and error handling
+- [x] Test ICS calendar file generation
+- [x] Test booking confirmation email integration
+- [ ] Test email delivery with real SMTP (requires production SMTP credentials)
+- [ ] Verify calendar attachments work across email clients (requires manual testing)
+- [ ] Test email templates on mobile devices (requires manual testing)
